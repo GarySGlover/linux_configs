@@ -24,7 +24,7 @@
   (setq vc-follow-symlinks t)
 #+end_src
 
-* Everything to be migrated and documented
+* Setup Theme
 #+begin_src emacs-lisp
   ;; Set up the visible bell
   (setq visible-bell t)
@@ -32,10 +32,10 @@
   ;; (set-face-attribute 'default nil :font "Fira Code Retina" :height 280)
 
   (load-theme 'modus-vivendi t)
+#+end_src
 
-  ;; Make ESC quit prompts
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
+* Setup Package Repos
+#+begin_src emacs-lisp
   ;; Initialize package sources
   (require 'package)
 
@@ -53,9 +53,10 @@
 
   ;; (require 'use-package)
   (setq use-package-always-ensure t)
+#+end_src
 
-  (use-package command-log-mode)
-
+* Setup IVY
+#+begin_src emacs-lisp
   (use-package swiper
     :ensure t)
 
@@ -76,7 +77,10 @@
 	   ("C-d" . ivy-reverse-i-search-kill))
     :config
     (ivy-mode 1))
+#+end_src
 
+* Setup Modeline
+#+begin_src emacs-lisp
   (use-package doom-modeline
     :ensure t
     :init (doom-modeline-mode 1)
@@ -94,8 +98,6 @@
    ;; If there is more than one, they won't work right.
    )
 #+end_src
-
-
 
 * EXWM Init config
 #+begin_src emacs-lisp

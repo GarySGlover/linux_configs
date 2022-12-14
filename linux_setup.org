@@ -1,0 +1,20 @@
+* Fix KDE gloal shortcuts
+#+begin_src bash
+  hotkeysRC=~/.config/kglobalshortcutsrc
+
+  # Remove application launching shortcuts.
+  sed -i 's/_launch=[^,]*/_launch=none/g' $hotkeysRC
+
+  # Remove other global shortcuts.
+  sed -i 's/^\([^_].*\)=[^,]*/\1=none/g' $hotkeysRC
+
+  # Reload hotkeys.
+  kquitapp5 kglobalaccel && sleep 2s && kglobalaccel5 &
+#+end_src
+
+* Git config
+#+begin_src sh
+  git config --global credential.helper 'store --file ~/.my-credentials'
+  git config --global user.name "Gary Glover"
+  git config --global user.email "light.bed5489@fourleafclover.uk"
+#+end_src
