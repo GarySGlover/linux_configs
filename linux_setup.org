@@ -1,3 +1,9 @@
+* Required packages
+#+begin_src sh
+  sudo pamac update
+  sudo pamac install alternatives
+#+end_src
+
 * Fix KDE gloal shortcuts
 #+begin_src bash
   hotkeysRC=~/.config/kglobalshortcutsrc
@@ -22,4 +28,9 @@
 * Fire Code Font
 #+begin_src sh
   sudo pacman -S ttf-fira-code
+#+end_src
+
+# Setup Powershell Alternatives
+#+begin_src sh
+  sudo alternative /usr/bin/powershell powershell /usr/bin/pwsh 1
 #+end_src

@@ -1,40 +1,5 @@
-* Remove startup message
-#+begin_src emacs-lisp
-(setq inhibit-startup-message t)
-#+end_src
-
-* Remove GUI components
-#+begin_src emacs-lisp
-(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
-(tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode 10)        ; Give some breathing room
-(menu-bar-mode -1)          ; Disable the menu bar
-#+end_src
-
-* Org Babel shell mode
-#+begin_src emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((shell . t)))
-#+end_src
-
-* Disable symbolic link notice
-#+begin_src emacs-lisp
-  (setq vc-follow-symlinks t)
-#+end_src
-
-* Setup Theme
-#+begin_src emacs-lisp
-  ;; Set up the visible bell
-  (setq visible-bell t)
-
-  (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
-
-  (load-theme 'modus-vivendi t)
-#+end_src
-
-* Setup Package Repos
+* Basic Config
+** Setup Package Repos
 #+begin_src emacs-lisp
   ;; Initialize package sources
   (require 'package)
@@ -54,14 +19,73 @@
   ;; (require 'use-package)
   (setq use-package-always-ensure t)
 #+end_src
+** Remove startup message
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)
+#+end_src
 
-* Package Rainbox Delimeters
+** Remove GUI components
+#+begin_src emacs-lisp
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 10)        ; Give some breathing room
+(menu-bar-mode -1)          ; Disable the menu bar
+#+end_src
+
+** Org Babel shell mode
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)))
+#+end_src
+
+** Disable symbolic link notice
+#+begin_src emacs-lisp
+  (setq vc-follow-symlinks t)
+#+end_src
+** Setup Themes
+#+begin_src emacs-lisp
+  ;; Set up the visible bell
+  (setq visible-bell t)
+
+  (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
+
+  (use-package all-the-icons
+    :init
+    (all-the-icons-install-fonts t))
+
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1)
+    :custom ((doom-modeline-height 15)))
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages '(swiper doom-modeline ivy command-log-mode use-package)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+
+  (use-package doom-themes
+    :init (load-theme 'doom-dracula t))
+#+end_src
+
+#+RESULTS:
+
+* Experience Helper Packagesn
+** Package Rainbox Delimeters
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
-* Package Which Key
-* Package Counsel
+** Package Which Key
+** Package Counsel
 #+begin_src emacs-lisp
   (use-package counsel
     :bind (("M-x" . counsel-M-x)
@@ -79,7 +103,7 @@
     :config
     (setq which-key-idle-delay 0))
 #+end_src
-* Package IVY
+** Package IVY
 #+begin_src emacs-lisp
   (use-package swiper
     :ensure t)
@@ -106,7 +130,7 @@
     :init
     (ivy-rich-mode 1))
 #+end_src
-* Package Helpful
+** Package Helpful
 #+begin_src emacs-lisp
   (use-package helpful
     :custom
@@ -118,27 +142,11 @@
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+end_src
-* Setup Themes
+* Language Packages
+** Powershell
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :init (doom-modeline-mode 1)
-    :custom ((doom-modeline-height 15)))
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(package-selected-packages '(swiper doom-modeline ivy command-log-mode use-package)))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   )
-
-  (use-package doom-themes)
-  (load-theme 'doom-dracula)
+  (use-package ob-powershell)
+  (use-package powershell)
 #+end_src
 * EXWM Init config
 #+begin_src emacs-lisp
