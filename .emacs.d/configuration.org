@@ -29,7 +29,7 @@
   ;; Set up the visible bell
   (setq visible-bell t)
 
-  ;; (set-face-attribute 'default nil :font "Fira Code Retina" :height 280)
+  (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
 
   (load-theme 'modus-vivendi t)
 #+end_src
@@ -55,7 +55,31 @@
   (setq use-package-always-ensure t)
 #+end_src
 
-* Setup IVY
+* Package Rainbox Delimeters
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+* Package Which Key
+* Package Counsel
+#+begin_src emacs-lisp
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x)
+	   ("C-x b" . counsel-ibuffer)
+	   ("C-x C-f" . counsel-find-file)
+	   :map minibuffer-local-map
+	   ("C-r" . 'counsel-minibuffer-history))
+    :config
+    (setq ivy-initial-inputs-alist nil))
+#+end_src
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0))
+#+end_src
+* Package IVY
 #+begin_src emacs-lisp
   (use-package swiper
     :ensure t)
@@ -77,9 +101,24 @@
 	   ("C-d" . ivy-reverse-i-search-kill))
     :config
     (ivy-mode 1))
-#+end_src
 
-* Setup Modeline
+  (use-package ivy-rich
+    :init
+    (ivy-rich-mode 1))
+#+end_src
+* Package Helpful
+#+begin_src emacs-lisp
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+#+end_src
+* Setup Themes
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :ensure t
@@ -97,77 +136,80 @@
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    )
-#+end_src
 
+  (use-package doom-themes)
+  (load-theme 'doom-dracula)
+#+end_src
 * EXWM Init config
 #+begin_src emacs-lisp
-  (defun efs/exwm-update-class ()
-  (exwm-workspace-rename-buffer exwm-class-name))
+    (defun efs/exwm-update-class ()
+    (exwm-workspace-rename-buffer exwm-class-name))
 
-(use-package exwm
-  :config
-  ;; Set the default number of workspaces
-  (setq exwm-workspace-number 5)
+  (use-package exwm
+    :config
+    ;; Set the default number of workspaces
+    (setq exwm-workspace-number 5)
 
-  ;; When window "class" updates, use it to set the buffer name
-  (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
+    ;; When window "class" updates, use it to set the buffer name
+    (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
 
-  ;; Rebind CapsLock to Ctrl
-  (start-process-shell-command "xmodmap" nil "xmodmap ~/.emacs.d/exwm/Xmodmap")
+    ;; Rebind CapsLock to Ctrl
+    (start-process-shell-command "xmodmap" nil "xmodmap ~/.emacs.d/exwm/Xmodmap")
 
-  ;; Set the screen resolution (update this to be the correct resolution for your screen!)
-  (require 'exwm-randr)
-  (exwm-randr-enable)
-  ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
+    ;; Set the screen resolution (update this to be the correct resolution for your screen!)
+    (require 'exwm-randr)
+    (exwm-randr-enable)
+    ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
 
-  ;; Load the system tray before exwm-init
-  (require 'exwm-systemtray)
-  (exwm-systemtray-enable)
+    ;; Load the system tray before exwm-init
+    (require 'exwm-systemtray)
+    (exwm-systemtray-enable)
 
-  ;; These keys should always pass through to Emacs
-  (setq exwm-input-prefix-keys
-    '(?\C-x
-      ?\C-u
-      ?\C-h
-      ?\M-x
-      ?\M-`
-      ?\M-&
-      ?\M-:
-      ?\C-\M-j  ;; Buffer list
-      ?\C-\ ))  ;; Ctrl+Space
+    ;; These keys should always pass through to Emacs
+    (setq exwm-input-prefix-keys
+      '(?\C-x
+	?\C-u
+	?\C-h
+	?\M-x
+	?\M-`
+	?\M-&
+	?\M-:
+	?\C-\M-j  ;; Buffer list
+	?\C-\ ))  ;; Ctrl+Space
 
-  ;; Ctrl+Q will enable the next key to be sent directly
-  (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
+    ;; Ctrl+Q will enable the next key to be sent directly
+    (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
 
-  ;; Set up global key bindings.  These always work, no matter the input state!
-  ;; Keep in mind that changing this list after EXWM initializes has no effect.
-  (setq exwm-input-global-keys
-        `(
-          ;; Reset to line-mode (C-c C-k switches to char-mode via exwm-input-release-keyboard)
-          ([?\s-r] . exwm-reset)
+    ;; Set up global key bindings.  These always work, no matter the input state!
+    ;; Keep in mind that changing this list after EXWM initializes has no effect.
+    (setq exwm-input-global-keys
+	  `(
+	    ;; Reset to line-mode (C-c C-k switches to char-mode via exwm-input-release-keyboard)
+	    ([?\s-r] . exwm-reset)
 
-          ;; Move between windows
-          ([s-left] . windmove-left)
-          ([s-right] . windmove-right)
-          ([s-up] . windmove-up)
-          ([s-down] . windmove-down)
+	    ;; Move between windows
+	    ([s-left] . windmove-left)
+	    ([s-right] . windmove-right)
+	    ([s-up] . windmove-up)
+	    ([s-down] . windmove-down)
 
-          ;; Launch applications via shell command
-          ([?\s-&] . (lambda (command)
-                       (interactive (list (read-shell-command "$ ")))
-                       (start-process-shell-command command nil command)))
+	    ;; Launch applications via shell command
+	    ([?\s-&] . (lambda (command)
+			 (interactive (list (read-shell-command "$ ")))
+			 (start-process-shell-command command nil command)))
 
-          ;; Switch workspace
-          ([?\s-w] . exwm-workspace-switch)
-          ([?\s-`] . (lambda () (interactive) (exwm-workspace-switch-create 0)))
+	    ;; Switch workspace
+	    ([?\s-w] . exwm-workspace-switch)
+	    ([?\s-`] . (lambda () (interactive) (exwm-workspace-switch-create 0)))
 
-          ;; 's-N': Switch to certain workspace with Super (Win) plus a number key (0 - 9)
-          ,@(mapcar (lambda (i)
-                      `(,(kbd (format "s-%d" i)) .
-                        (lambda ()
-                          (interactive)
-                          (exwm-workspace-switch-create ,i))))
-                    (number-sequence 0 9))))
+	    ;; 's-N': Switch to certain workspace with Super (Win) plus a number key (0 - 9)
+	    ,@(mapcar (lambda (i)
+			`(,(kbd (format "s-%d" i)) .
+			  (lambda ()
+			    (interactive)
+			    (exwm-workspace-switch-create ,i))))
+		      (number-sequence 0 9))))
 
-  (exwm-enable))
+    ;; (exwm-enable)
+  )
 #+end_src

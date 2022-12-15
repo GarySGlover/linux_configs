@@ -18,3 +18,8 @@
   git config --global user.name "Gary Glover"
   git config --global user.email "light.bed5489@fourleafclover.uk"
 #+end_src
+
+* Fire Code Font
+#+begin_src sh
+  sudo pacman -S ttf-fira-code
+#+end_src
