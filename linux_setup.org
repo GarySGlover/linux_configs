@@ -32,5 +32,6 @@
 
 # Setup Powershell Alternatives
 #+begin_src sh
-  sudo alternative /usr/bin/powershell powershell /usr/bin/pwsh 1
+  #sudo alternative /usr/bin/powershell powershell /usr/bin/pwsh 1
+  sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 #+end_src

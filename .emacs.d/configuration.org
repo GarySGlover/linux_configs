@@ -78,6 +78,14 @@
 
 #+RESULTS:
 
+** Shortcut Keys
+package - general
+https://github.com/noctuid/general.el
+https://www.youtube.com/watch?v=xaZMwNELaJY&t=820s
+https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
+package - hydra
+https://github.com/abo-abo/hydra
+https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
 * Experience Helper Packagesn
 ** Package Rainbox Delimeters
 #+begin_src emacs-lisp
@@ -220,4 +228,4 @@
 
     ;; (exwm-enable)
   )
-#+end_src
+#+e
