@@ -51,9 +51,6 @@
 
   (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
 
-  (use-package all-the-icons
-    :init
-    (all-the-icons-install-fonts t))
   (use-package all-the-icons)
 ;;    :init
 ;;    (all-the-icons-install-fonts t))
@@ -152,6 +149,42 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
     ([remap describe-command] . helpful-command)
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
+#+end_src
+* Project Management
+** Projectile
+Main Project
+https://github.com/bbatsov/projectile
+Projectile Documentation
+https://docs.projectile.mx/projectile/index.html
+Counsel Integration
+https://github.com/ericdanan/counsel-projectile
+#+begin_src emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config (projectile-mode)
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (setq projectile-switch-project-action #'projectile-dired))
+
+  ;; Projectile Counsel
+  (use-package counsel-projectile
+   :after projectile
+   :config
+   (counsel-projectile-mode 1))
+
+#+end_src
+
+** Magit
+Github page
+https://github.com/magit/magit
+Manual
+https://magit.vc/manual/magit/
+#+begin_src emacs-lisp
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 * Language Packages
 ** Powershell
