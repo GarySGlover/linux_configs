@@ -37,13 +37,17 @@
 (menu-bar-mode -1)          ; Disable the menu bar
 #+end_src
 
+** Remove Unwanted Inbuilt Shortcuts
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-x C-c"))
+#+end_src
 ** Org Mode
 Install latest org mode
 #+begin_src emacs-lisp
-  (assq-delete-all 'org package--builtins)
-  (assq-delete-all 'org package--builtin-versions)
-  (use-package org
-    :ensure t)
+  ;;(assq-delete-all 'org package--builtins)
+  ;;(assq-delete-all 'org package--builtin-versions)
+  ;;(use-package org
+  ;;  :ensure t)
 #+end_src
 Babel shell mode
 #+begin_src emacs-lisp
