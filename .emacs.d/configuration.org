@@ -219,9 +219,9 @@ https://magit.vc/manual/magit/
   (use-package ob-powershell)
   (use-package powershell)
 #+end_src
-* EXWM Init config
+* EXWM
 #+begin_src emacs-lisp
-    (defun efs/exwm-update-class ()
+  (defun efs/exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
 
   (use-package exwm
@@ -233,7 +233,7 @@ https://magit.vc/manual/magit/
     (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
 
     ;; Rebind CapsLock to Ctrl
-    (start-process-shell-command "xmodmap" nil "xmodmap ~/.emacs.d/exwm/Xmodmap")
+    (start-process-shell-command "xmodmap" nil "xmodmap ~/.Xmodmap")
 
     ;; Set the screen resolution (update this to be the correct resolution for your screen!)
     (require 'exwm-randr)
@@ -289,6 +289,6 @@ https://magit.vc/manual/magit/
 			    (exwm-workspace-switch-create ,i))))
 		      (number-sequence 0 9))))
 
-    ;; (exwm-enable)
+    (exwm-enable)
   )
-#+e
+#+end_src
