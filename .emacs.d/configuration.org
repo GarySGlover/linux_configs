@@ -58,8 +58,8 @@
 *** Org mode bullets
 #+begin_src emacs-lisp
   (use-package org-bullets
-    :after og
-    :hook (org-mode . org-mode-bullets))
+    :after org
+    :hook (org-mode . org-bullets-mode))
 #+end_src
 *** Org templates
 #+begin_src emacs-lisp
@@ -292,3 +292,4 @@ https://magit.vc/manual/magit/
     (exwm-enable)
   )
 #+end_src
+
