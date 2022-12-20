@@ -42,20 +42,31 @@
   (global-unset-key (kbd "C-x C-c"))
 #+end_src
 ** Org Mode
-Install latest org mode
+*** Install latest org mode
 #+begin_src emacs-lisp
   ;;(assq-delete-all 'org package--builtins)
   ;;(assq-delete-all 'org package--builtin-versions)
   ;;(use-package org
   ;;  :ensure t)
 #+end_src
-Babel shell mode
+*** Babel shell mode
 #+begin_src emacs-lisp
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((shell . t)))
 #+end_src
-
+*** Org mode bullets
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :after og
+    :hook (org-mode . org-mode-bullets))
+#+end_src
+*** Org templates
+#+begin_src emacs-lisp
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+#+end_src
 ** Disable symbolic link notice
 #+begin_src emacs-lisp
   (setq vc-follow-symlinks t)
