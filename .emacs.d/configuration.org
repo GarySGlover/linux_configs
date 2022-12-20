@@ -220,6 +220,37 @@ https://magit.vc/manual/magit/
   (use-package powershell)
 #+end_src
 * EXWM
+** EXWM Startup Processes
+#+begin_src emacs-lisp
+  (defun efs/run-in-background (command)
+    (let ((command-parts (split-string command "[ ]+")))
+      (apply #'call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts)))))
+
+  (defun efs/exwm-init-hook ()
+    ;; Make workspace 1 be the one where we land at startup
+    (exwm-workspace-switch-create 1)
+
+    ;; Open eshell by default
+    (eshell)
+
+    ;; Show battery status in the mode line
+    (display-battery-mode 1)
+
+    ;; Show the time and date in modeline
+    (setq display-time-day-and-date t)
+    (display-time-mode 1)
+    ;; Also take a look at display-time-format and format-time-string
+
+    ;; Launch apps that will run in the background
+    ;; Network manager
+    ;;(efs/run-in-background "nm-applet")
+    ;; Pulsa Audio
+    ;;(efs/run-in-background "pasystray")
+    ;; Bluetooth applet
+    ;;(efs/run-in-background "blueman-applet")
+    )
+#+end_src
+** EXWM Start
 #+begin_src emacs-lisp
   (defun efs/exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
@@ -231,6 +262,9 @@ https://magit.vc/manual/magit/
 
     ;; When window "class" updates, use it to set the buffer name
     (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
+
+    ;; When EXWM starts up, do some extra confifuration
+    (add-hook 'exwm-init-hook #'efs/exwm-init-hook)
 
     ;; Rebind CapsLock to Ctrl
     (start-process-shell-command "xmodmap" nil "xmodmap ~/.Xmodmap")
