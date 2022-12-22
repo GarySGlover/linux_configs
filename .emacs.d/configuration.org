@@ -111,9 +111,15 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
 	   ("C-x C-f" . counsel-find-file)
 	   :map minibuffer-local-map
 	   ("C-r" . 'counsel-minibuffer-history))
+    :custom
+    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
     :config
     (setq ivy-initial-inputs-alist nil))
 #+end_src
+
+#+RESULTS:
+: counsel-minibuffer-history
+
 #+begin_src emacs-lisp
   (use-package which-key
     :init (which-key-mode)
@@ -221,16 +227,15 @@ https://magit.vc/manual/magit/
 
     ;; Show the time and date in modeline
     (setq display-time-day-and-date t)
+    (setq display-time-format "%a %d %b %H:%M")
     (display-time-mode 1)
     ;; Also take a look at display-time-format and format-time-string
 
     ;; Launch apps that will run in the background
     ;; Network manager
     ;;(efs/run-in-background "nm-applet")
-    ;; Pulsa Audio
+    ;; Pulse Audio
     ;;(efs/run-in-background "pasystray")
-    ;; Bluetooth applet
-    ;;(efs/run-in-background "blueman-applet")
     )
 #+end_src
 ** EXWM Start
@@ -238,8 +243,11 @@ https://magit.vc/manual/magit/
   (defun efs/exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
 
-  (defun efs/exwm-update-title ()
+  (defun clover/exwm-update-title ()
     (exwm-workspace-rename-buffer (concat exwm-class-name ": " exwm-title)))
+
+  (defun clover/exwm-lock-screen ()
+    (start-process-shell-command "lock" nil "slock"))
 
   (use-package exwm
     :config
@@ -248,7 +256,7 @@ https://magit.vc/manual/magit/
 
     ;; When window "class" updates, use it to set the buffer name
     ;; (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
-    (add-hook 'exwm-update-title-hook #'efs/exwm-update-title)
+    (add-hook 'exwm-update-title-hook #'clover/exwm-update-title)
 
     ;; When EXWM starts up, do some extra confifuration
     (add-hook 'exwm-init-hook #'efs/exwm-init-hook)
@@ -310,7 +318,18 @@ https://magit.vc/manual/magit/
 			    (exwm-workspace-switch-create ,i))))
 		      (number-sequence 0 9))))
 
+    (exwm-input-set-key (kbd "s-SPC") 'counsel-linux-app)
+    (exwm-input-set-key (kbd "s-f") 'exwm-layout-toggle-fullscreen)
+    (exwm-input-set-key (kbd "s-l") (lambda() (interactive) (clover/exwm-lock-screen)))
+
+
     (exwm-enable)
   )
 #+end_src
+
+#+RESULTS:
+: t
+
+** Desktop Environment Package
+[[https://github.com/DamienCassou/desktop-environment][Desktop-Environment github page]]
 

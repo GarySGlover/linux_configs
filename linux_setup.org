@@ -40,6 +40,11 @@
   pamac install bluetuith
 #+end_src
 
+* Lock Screen
+#+begin_src shell
+  sudo pacman -S slock xss-lock
+#+end_src
+
 * Arandr (xrandr GUI) resolution editor
 #+begin_src sh
   #sudo -Syu arandr
