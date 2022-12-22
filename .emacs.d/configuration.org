@@ -262,8 +262,8 @@ https://magit.vc/manual/magit/
     ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
 
     ;; Load the system tray before exwm-init
-    (require 'exwm-systemtray)
-    (exwm-systemtray-enable)
+    ;; (require 'exwm-systemtray)
+    ;; (exwm-systemtray-enable)
 
     ;; These keys should always pass through to Emacs
     (setq exwm-input-prefix-keys
