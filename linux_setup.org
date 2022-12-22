@@ -30,6 +30,16 @@
   sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 #+end_src
 
+* Bluetooth Controls Utilities
+#+begin_src sh
+  # sudo pacman -S bluez-utils
+
+  # This may not be needed
+  # systemctl --user enable obex
+
+  pamac install bluetuith
+#+end_src
+
 * Arandr (xrandr GUI) resolution editor
 #+begin_src sh
   #sudo -Syu arandr
