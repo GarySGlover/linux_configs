@@ -255,13 +255,17 @@ https://magit.vc/manual/magit/
   (defun efs/exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
 
+  (defun efs/exwm-update-title ()
+    (exwm-workspace-rename-buffer (concat exwm-class-name ": " exwm-title)))
+
   (use-package exwm
     :config
     ;; Set the default number of workspaces
     (setq exwm-workspace-number 5)
 
     ;; When window "class" updates, use it to set the buffer name
-    (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
+    ;; (add-hook 'exwm-update-class-hook #'efs/exwm-update-class)
+    (add-hook 'exwm-update-title-hook #'efs/exwm-update-title)
 
     ;; When EXWM starts up, do some extra confifuration
     (add-hook 'exwm-init-hook #'efs/exwm-init-hook)
