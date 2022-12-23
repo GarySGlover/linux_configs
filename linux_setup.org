@@ -59,6 +59,11 @@
   sudo pacman -S slock xss-lock
 #+end_src
 
+* Composition Window Manager
+#+begin_src shell
+  sudo pacman -S picom
+#+end_src
+
 * Arandr (xrandr GUI) resolution editor
 #+begin_src sh
   sudo pacman -Syu arandr
