@@ -27,6 +27,7 @@
 * Setup Powershell Alternatives
 #+begin_src sh
   #sudo alternative /usr/bin/powershell powershell /usr/bin/pwsh 1
+  pamac install powershell-bin
   sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 #+end_src
 
@@ -38,6 +39,11 @@
   # systemctl --user enable obex
 
   pamac install bluetuith
+#+end_src
+
+* Audio Control
+#+begin_src shell
+  pamac install pacmixer
 #+end_src
 
 * Lock Screen

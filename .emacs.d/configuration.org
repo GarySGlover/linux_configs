@@ -65,6 +65,10 @@
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 #+end_src
+*** Source Code Edit Buffer
+#+begin_src emacs-lisp
+  (setq org-src-window-setup 'current-window)
+#+end_src
 ** Disable symbolic link notice
 #+begin_src emacs-lisp
   (setq vc-follow-symlinks t)
@@ -93,6 +97,16 @@ package - general
 https://github.com/noctuid/general.el
 https://www.youtube.com/watch?v=xaZMwNELaJY&t=820s
 https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
+#+begin_src emacs-lisp
+  (use-package general)
+
+  ;; My editing shortcuts
+  (general-define-key
+   :prefix "C-c e"
+   "c" 'comment-or-uncomment-region)
+
+
+#+end_src
 package - hydra
 https://github.com/abo-abo/hydra
 https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
@@ -166,7 +180,7 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+end_src
-* Project Management
+* Development
 ** Projectile
 Main Project
 https://github.com/bbatsov/projectile
@@ -202,8 +216,52 @@ https://magit.vc/manual/magit/
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
-* Language Packages
-** Powershell
+** LSP Mode Setup
+#+begin_src emacs-lisp
+  (defun efs/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :config
+    (lsp-enable-which-key-integration t)
+    :hook (lsp-mode . efs/lsp-mode-setup))
+#+end_src
+*** LSP UI
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode))
+#+end_src
+*** LSP Treemacs
+#+begin_src emacs-lisp
+  (use-package lsp-treemacs
+    :after lsp)
+#+end_src
+*** LSP Ivy
+#+begin_src emacs-lisp
+  (use-package lsp-ivy)
+#+end_src
+** Company Mode Completions
+#+begin_src emacs-lisp
+  (use-package company
+    :after lsp-mode
+    :hook (prog-mode . company-mode)
+    :bind (:map company-active-map
+	   ("<tab>" . company-complete-selection))
+	  (:map lsp-mode-map
+	   ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+#+end_src
+** Languages
+*** Powershell
 #+begin_src emacs-lisp
   (use-package ob-powershell)
   (use-package powershell)
