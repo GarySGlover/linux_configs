@@ -1,3 +1,4 @@
+#+PROPERTY: header-args:bash :tangle ./install_exwm.sh :mkdirp yes
 * Fix KDE gloal shortcuts
 #+begin_src bash
   hotkeysRC=~/.config/kglobalshortcutsrc
@@ -13,45 +14,36 @@
 #+end_src
 
 * Git config
-#+begin_src sh
+#+begin_src bash
   git config --global credential.helper 'store --file ~/.my-credentials'
   git config --global user.name "Gary Glover"
   git config --global user.email "light.bed5489@fourleafclover.uk"
 #+end_src
 
 * Fire Code Font
-#+begin_src sh
+#+begin_src bash
   sudo pacman -S ttf-fira-code
 #+end_src
 
-* Setup Powershell Alternatives
-#+begin_src sh
-  #sudo alternative /usr/bin/powershell powershell /usr/bin/pwsh 1
-  pamac install powershell-bin
+* Languages
+** Powershell
+#+begin_src bash
+  sudo pamac install powershell-bin
   sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 #+end_src
 
-* Bluetooth Controls Utilities
-#+begin_src sh
-  # sudo pacman -S bluez-utils
-
-  # This may not be needed
-  # systemctl --user enable obex
-
-  pamac install bluetuith
+* Controllers
+** Bluetooth Controls Utilities
+#+begin_src bash
+  sudo pamac install bluetuith
 #+end_src
 
-* Audio Control
-#+begin_src shell
-  pamac install pacmixer
+** Audio Control
+#+begin_src bash
+  sduo pamac install pacmixer
 #+end_src
 
-* Lock Screen
-#+begin_src shell
+** Lock Screen
+#+begin_src bash
   sudo pacman -S slock xss-lock
-#+end_src
-
-* Arandr (xrandr GUI) resolution editor
-#+begin_src sh
-  #sudo -Syu arandr
 #+end_src
