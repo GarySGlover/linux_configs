@@ -1,6 +1,0 @@
-* Desktop link
-#+begin_src bash
-  sudo ln -f ~/.emacs.d/exwm/exwm.desktop /usr/share/xsessions/exwm.desktop
-#+end_src
-
-#+RESULTS:

@@ -1,0 +1,6 @@
+#+PROPERTY: header-args:bash :tangle ./install_exwm.sh :mkdirp yes
+* Desktop link
+#+begin_src bash
+  sudo cp ./exwm.desktop /usr/share/xsessions/exwm.desktop -f
+  sudo cp ./start-exwm.sh /usr/local/sbin/start-exwm.sh -f
+#+end_src
