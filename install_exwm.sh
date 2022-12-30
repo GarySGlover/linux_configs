@@ -15,6 +15,10 @@ git config --global user.email "light.bed5489@fourleafclover.uk"
 
 sudo pacman -S ttf-fira-code
 
+sudo pacman -S picom
+
+sudo pacman -S nyxt
+
 sudo pamac install powershell-bin
 sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 

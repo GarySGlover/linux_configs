@@ -3,6 +3,7 @@
 # NOTE: This is only for the live demo, not needed for your configuration!
 # spice-vdagent
 
+# Run the screen compositor
 picom &
 
 # Screen locking suspend

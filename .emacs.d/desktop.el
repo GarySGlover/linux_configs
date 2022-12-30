@@ -7,7 +7,7 @@
   (exwm-workspace-switch-create 1)
 
   ;; Open eshell by default
-  (eshell)
+  (shell)
 
   ;; Show battery status in the mode line
   (display-battery-mode 1)
@@ -95,6 +95,8 @@
 	  ([?\s-w] . exwm-workspace-switch)
 	  ([?\s-`] . (lambda () (interactive) (exwm-workspace-switch-create 0)))
 
+	  ;; Toggle char line mode
+	  ([?\s-k] . exwm-input-toggle-keyboard)
 	  ;; 's-N': Switch to certain workspace with Super (Win) plus a number key (0 - 9)
 	  ,@(mapcar (lambda (i)
 		      `(,(kbd (format "s-%d" i)) .

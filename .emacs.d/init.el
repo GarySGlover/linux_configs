@@ -47,6 +47,28 @@
 
 (setq org-src-window-setup 'current-window)
 
+(defun efs/configure-eshell ()
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+  (setq eshell-history-size 10000
+	eshell-buffer-maximum-lines 10000
+	eshell-hist-ignoredups t
+	eshell-scroll-to-bottom-on-input t))
+
+(use-package eshell-git-prompt)
+
+(use-package eshell
+  :hook (eshell-first-time-mode . efs/configure-eshell)
+
+  :config
+  (with-eval-after-load 'esh-opt
+    (setq eshell-destroy-buffer-when-process-dies t)
+    (setq eshell-visual-commands '("vi" "screen" "tmux" "top" "htop" "less" "more" "lynx" "links" "ncftp" "mutt" "pine" "tin" "trn" "elm" "zsh" "bluetuith" "bash")))
+
+  (eshell-git-prompt-use-theme 'powerline))
+
 (setq vc-follow-symlinks t)
 
 ;; Set up the visible bell
@@ -55,8 +77,8 @@
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
 
 (use-package all-the-icons)
-  :init
-  (all-the-icons-install-fonts t)
+  ;; :init
+  ;; (all-the-icons-install-fonts t)
 
 (use-package doom-modeline
   :ensure t
