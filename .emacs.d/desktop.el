@@ -7,7 +7,7 @@
   (exwm-workspace-switch-create 1)
 
   ;; Open eshell by default
-  (shell)
+  (eshell)
 
   ;; Show battery status in the mode line
   (display-battery-mode 1)

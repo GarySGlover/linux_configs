@@ -100,14 +100,15 @@
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
+	 ("C-x b" . counsel-switch-buffer)
 	 ("C-x C-f" . counsel-find-file)
 	 :map minibuffer-local-map
 	 ("C-r" . 'counsel-minibuffer-history))
   :custom
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
   :config
-  (setq ivy-initial-inputs-alist nil))
+  (setq ivy-initial-inputs-alist nil)
+  (setq counsel-switch-buffer-preview-virtual-buffers nil))
 
 (use-package which-key
   :init (which-key-mode)
