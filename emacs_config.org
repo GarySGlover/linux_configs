@@ -1,0 +1,308 @@
+#+PROPERTY: header-args:emacs-lisp :tangle ./.emacs.d/init.el :mkdirp yes
+* Basic Config
+** Setup Package Repos
+#+begin_src emacs-lisp
+  ;; Initialize package sources
+  (require 'package)
+
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+
+  (package-initialize)
+  (unless package-archive-contents
+   (package-refresh-contents))
+
+  ;; Initialize use-package on non-Linux platforms
+  (unless (package-installed-p 'use-package)
+     (package-install 'use-package))
+
+  ;; (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+** Start emacs server
+#+begin_src emacs-lisp
+  (require 'server)
+  (unless (server-running-p) (server-start))
+#+end_src
+** Remove startup message
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)
+#+end_src
+** Remove GUI components
+#+begin_src emacs-lisp
+(scroll-bar-mode -1)        ; Disable visible scrollbar
+(tool-bar-mode -1)          ; Disable the toolbar
+(tooltip-mode -1)           ; Disable tooltips
+(set-fringe-mode 10)        ; Give some breathing room
+(menu-bar-mode -1)          ; Disable the menu bar
+#+end_src
+** Renmove Unwanted Inbuilt Shortcuts
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-x C-c"))
+#+end_src
+** Org Mode
+*** Install latest org mode
+#+begin_src emacs-lisp
+  ;;(assq-delete-all 'org package--builtins)
+  ;;(assq-delete-all 'org package--builtin-versions)
+  ;;(use-package org
+  ;;  :ensure t)
+#+end_src
+*** Babel shell mode
+#+begin_src emacs-lisp
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((shell . t)))
+#+end_src
+*** Babel Tangle Save
+*** Org mode bullets
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode))
+#+end_src
+*** Org templates
+#+begin_src emacs-lisp
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+#+end_src
+*** Source Code Edit Buffer
+#+begin_src emacs-lisp
+  (setq org-src-window-setup 'current-window)
+#+end_src
+** Shell Mode
+*** vterm
+*** eshell
+#+begin_src emacs-lisp
+  (defun efs/configure-eshell ()
+    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+    (setq eshell-history-size 10000
+	  eshell-buffer-maximum-lines 10000
+	  eshell-hist-ignoredups t
+	  eshell-scroll-to-bottom-on-input t))
+
+  (use-package eshell-git-prompt)
+
+  (use-package eshell
+    :hook (eshell-first-time-mode . efs/configure-eshell)
+
+    :config
+    (with-eval-after-load 'esh-opt
+      (setq eshell-destroy-buffer-when-process-dies t)
+      (setq eshell-visual-commands '("vi" "screen" "tmux" "top" "htop" "less" "more" "lynx" "links" "ncftp" "mutt" "pine" "tin" "trn" "elm" "zsh" "bluetuith" "bash")))
+
+    (eshell-git-prompt-use-theme 'powerline))
+#+end_src
+** Disable symbolic link notice
+#+begin_src emacs-lisp
+  (setq vc-follow-symlinks t)
+#+end_src
+** Setup Themes
+#+begin_src emacs-lisp
+  ;; Set up the visible bell
+  (setq visible-bell t)
+
+  (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
+
+  (use-package all-the-icons)
+    ;; :init
+    ;; (all-the-icons-install-fonts t)
+
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1)
+    :custom ((doom-modeline-height 15)))
+
+  (use-package doom-themes
+    :init (load-theme 'doom-dracula t))
+#+end_src
+** Shortcut Keys
+package - general
+https://github.com/noctuid/general.el
+https://www.youtube.com/watch?v=xaZMwNELaJY&t=820s
+https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
+#+begin_src emacs-lisp
+  (use-package general)
+
+  ;; My editing shortcuts
+  (general-define-key
+   :prefix "C-c e"
+   "c" 'comment-or-uncomment-region)
+
+
+#+end_src
+package - hydra
+https://github.com/abo-abo/hydra
+https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
+* Experience Helper Packagesn
+** Package Rainbox Delimeters
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+** Package Which Key
+** Package Counsel
+#+begin_src emacs-lisp
+    (use-package counsel
+      :bind (("M-x" . counsel-M-x)
+	     ("C-x b" . counsel-switch-buffer)
+	     ("C-x C-f" . counsel-find-file)
+	     :map minibuffer-local-map
+	     ("C-r" . 'counsel-minibuffer-history))
+      :custom
+      (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+      :config
+      (setq ivy-initial-inputs-alist nil)
+      (setq counsel-switch-buffer-preview-virtual-buffers nil))
+#+end_src
+
+#+RESULTS:
+: counsel-minibuffer-history
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0))
+#+end_src
+
+#+RESULTS:
+: t
+
+** Package IVY
+#+begin_src emacs-lisp
+  (use-package swiper
+    :ensure t)
+
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+	   :map ivy-minibuffer-map
+	   ("TAB" . ivy-alt-done)	
+	   ("C-l" . ivy-alt-done)
+	   ("C-j" . ivy-next-line)
+	   ("C-k" . ivy-previous-line)
+	   :map ivy-switch-buffer-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-l" . ivy-done)
+	   ("C-d" . ivy-switch-buffer-kill)
+	   :map ivy-reverse-i-search-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1))
+
+  (use-package ivy-rich
+    :init
+    (ivy-rich-mode 1))
+#+end_src
+** Package Helpful
+#+begin_src emacs-lisp
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+#+end_src
+* Development
+** Projectile
+Main Project
+https://github.com/bbatsov/projectile
+Projectile Documentation
+https://docs.projectile.mx/projectile/index.html
+Counsel Integration
+https://github.com/ericdanan/counsel-projectile
+#+begin_src emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config (projectile-mode)
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (setq projectile-switch-project-action #'projectile-dired))
+
+  ;; Projectile Counsel
+  (use-package counsel-projectile
+   :after projectile
+   :config
+   (counsel-projectile-mode 1))
+
+#+end_src
+
+** Magit
+Github page
+https://github.com/magit/magit
+Manual
+https://magit.vc/manual/magit/
+#+begin_src emacs-lisp
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+** LSP Mode Setup
+#+begin_src emacs-lisp
+  (defun efs/lsp-mode-setup ()
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :config
+    (lsp-enable-which-key-integration t)
+    :hook (lsp-mode . efs/lsp-mode-setup))
+#+end_src
+*** LSP UI
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :hook (lsp-mode . lsp-ui-mode))
+#+end_src
+*** LSP Treemacs
+#+begin_src emacs-lisp
+  (use-package lsp-treemacs
+    :after lsp)
+#+end_src
+*** LSP Ivy
+#+begin_src emacs-lisp
+  (use-package lsp-ivy)
+#+end_src
+** Company Mode Completions
+#+begin_src emacs-lisp
+  (use-package company
+    :after lsp-mode
+    :hook (prog-mode . company-mode)
+    :bind (:map company-active-map
+	   ("<tab>" . company-complete-selection))
+	  (:map lsp-mode-map
+	   ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+#+end_src
+** Line Commenting
+#+begin_src emacs-lisp
+  (use-package evil-nerd-commenter
+    :bind ("C-;" . evilnc-comment-or-uncomment-lines))
+#+end_src
+** Languages
+*** Powershell
+#+begin_src emacs-lisp
+  (use-package ob-powershell)
+  (use-package powershell)
+#+end_src
+<<<<<<< HEAD:emacs_config.org
+q=======
