@@ -58,11 +58,19 @@
     ;; Set the screen resolution (update this to be the correct resolution for your screen!)
     (require 'exwm-randr)
     (exwm-randr-enable)
-    ;; (start-process-shell-command "xrandr" nil "xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal")
+    (start-process-shell-command "xrandr" nil "xrandr --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --mode 1920x1200 --pos 0x480 --rotate normal --output DP-1 --off --output DP-2 --primary --mode 3840x2160 --pos 1920x0 --rotate normal --output DP-3 --off --output DP-4 --mode 1920x1200 --pos 5760x480 --rotate normal --output DP-5 --off")
+    (setq exwm-randr-workspace-monitor-plist '(2 "DP-0" 3 "DP-4")
+	  exwm-workspace-warp-cursor t
+	  mouse-autoselect-window t)
+
 
     ;; Load the system tray before exwm-init
     ;; (require 'exwm-systemtray)
     ;; (exwm-systemtray-enable)
+
+    ;; Allow buffers on all workspaces
+    (setq exwm-workspace-show-all-buffers 1)
+    (setq exwm-layout-show-all-buffers t)
 
     ;; These keys should always pass through to Emacs
     (setq exwm-input-prefix-keys
@@ -91,6 +99,10 @@
 	    ([s-right] . windmove-right)
 	    ([s-up] . windmove-up)
 	    ([s-down] . windmove-down)
+   	    ([C-s-b] . windmove-left)
+	    ([C-s-f] . windmove-right)
+	    ([C-s-p] . windmove-up)
+	    ([C-s-n] . windmove-down)
 
 	    ;; Launch applications via shell command
 	    ([?\s-&] . (lambda (command)

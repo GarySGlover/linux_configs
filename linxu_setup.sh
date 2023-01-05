@@ -15,12 +15,17 @@ git config --global user.email "light.bed5489@fourleafclover.uk"
 
 sudo pacman -S ttf-fira-code
 
-sudo pacman -S picom
+#sudo pacman -S picom
+
+sudo pamac install compton-old-git
 
 sudo pacman -S nyxt
 
 sudo pamac install powershell-bin
 sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
+
+sudo pacman -S terraform
+sudo pamac install terraform-ls
 
 sudo pamac install bluetuith
 

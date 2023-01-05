@@ -95,6 +95,30 @@
  :prefix "C-c e"
  "c" 'comment-or-uncomment-region)
 
+(defun clover-counsel-switch-buffer (regex-list)
+  (let ((ivy-ignore-buffers (append ivy-ignore-buffers regex-list)))
+    (ivy-switch-buffer)))
+
+(defun clover-show-only-firefox-buffers ()
+  (interactive)
+  (clover-ignore-star-and-buffers '("^[^F][^i][^r]")))
+
+(defun clover-show-only-brave-buffers ()
+  (interactive)
+  (clover-ignore-star-and-buffers '("^[^B][^r][^a][^v][^e]")))
+
+(defun clover-ignore-star-buffers ()
+  "ignore everything starting with a star along with whatever ivy's defaults are"
+  (interactive)
+  (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*"))))
+
+(defun clover-ignore-star-and-buffers (regex-list)
+  (interactive)
+  (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
+
+(setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backup")))
+(setq create-lockfiles nil)
+
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
@@ -209,3 +233,6 @@
 
 (use-package ob-powershell)
 (use-package powershell)
+
+(use-package terraform-mode
+  :hook (terraform-mode . lsp-deferred))
