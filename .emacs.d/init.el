@@ -236,3 +236,6 @@
 
 (use-package terraform-mode
   :hook (terraform-mode . lsp-deferred))
+
+(use-package yaml-mode
+  :hook (yaml-mode . lsp-deferred))

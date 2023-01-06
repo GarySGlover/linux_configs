@@ -332,10 +332,13 @@ https://magit.vc/manual/magit/
   (use-package ob-powershell)
   (use-package powershell)
 #+end_src
-<<<<<<< HEAD:emacs_config.org
-q=======
 *** Terraform
 #+begin_src emacs-lisp
   (use-package terraform-mode
     :hook (terraform-mode . lsp-deferred))
+#+end_src
+*** YAML
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :hook (yaml-mode . lsp-deferred))
 #+end_src
