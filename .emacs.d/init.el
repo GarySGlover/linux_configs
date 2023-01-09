@@ -88,6 +88,10 @@
 (use-package doom-themes
   :init (load-theme 'doom-dracula t))
 
+(defun clover/font-size (SIZE)
+  (interactive "nFont Size: ")
+  (set-face-attribute 'default (selected-frame) :height SIZE))
+
 (use-package general)
 
 ;; My editing shortcuts
@@ -115,6 +119,8 @@
 (defun clover-ignore-star-and-buffers (regex-list)
   (interactive)
   (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
+
+(general-define-key "C-x b" 'clover-ignore-star-buffers)
 
 (setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backup")))
 (setq create-lockfiles nil)
