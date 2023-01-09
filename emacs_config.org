@@ -119,6 +119,10 @@
 
   (use-package doom-themes
     :init (load-theme 'doom-dracula t))
+
+  (defun clover/font-size (SIZE)
+    (interactive "nFont Size: ")
+    (set-face-attribute 'default (selected-frame) :height SIZE))
 #+end_src
 ** Shortcut Keys
 package - general
@@ -136,6 +140,36 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 package - hydra
 https://github.com/abo-abo/hydra
 https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
+** Buffer Filters
+#+begin_src emacs-lisp
+  (defun clover-counsel-switch-buffer (regex-list)
+    (let ((ivy-ignore-buffers (append ivy-ignore-buffers regex-list)))
+      (ivy-switch-buffer)))
+
+  (defun clover-show-only-firefox-buffers ()
+    (interactive)
+    (clover-ignore-star-and-buffers '("^[^F][^i][^r]")))
+
+  (defun clover-show-only-brave-buffers ()
+    (interactive)
+    (clover-ignore-star-and-buffers '("^[^B][^r][^a][^v][^e]")))
+
+  (defun clover-ignore-star-buffers ()
+    "ignore everything starting with a star along with whatever ivy's defaults are"
+    (interactive)
+    (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*"))))
+
+  (defun clover-ignore-star-and-buffers (regex-list)
+    (interactive)
+    (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
+
+  (general-define-key "C-x b" 'clover-ignore-star-buffers)
+#+end_src
+** Backup / Lock files locations
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backup")))
+  (setq create-lockfiles nil)
+#+end_src
 * Experience Helper Packagesn
 ** Package Rainbox Delimeters
 #+begin_src emacs-lisp
@@ -313,5 +347,13 @@ https://magit.vc/manual/magit/
   (use-package ob-powershell)
   (use-package powershell)
 #+end_src
-<<<<<<< HEAD:emacs_config.org
-q=======
+*** Terraform
+#+begin_src emacs-lisp
+  (use-package terraform-mode
+    :hook (terraform-mode . lsp-deferred))
+#+end_src
+*** YAML
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :hook (yaml-mode . lsp-deferred))
+#+end_src

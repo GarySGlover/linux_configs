@@ -1,0 +1,60 @@
+* Get list of buffers
+#+begin_src emacs-lisp
+  (dolist ($buf (buffer-list ()))
+    (with-current-buffer $buf
+      (if (equal major-mode 'exwm-mode)
+	  (message "x %s : %s" $buf exwm-class-name)
+	(message "x %s : %s" $buf major-mode))))
+#+end_src
+
+* Clover switch buffer
+#+begin_src emacs-lisp
+  (defun clover-get-buffer-types ()
+    (let ((buffers (make-hash-table :test #'equal)))
+      (dolist ($buf (buffer-list ()))
+	(with-current-buffer $buf
+	  (if (equal major-mode 'exwm-mode)
+	      (puthash exwm-class-name major-mode buffers)
+	    (puthash major-mode major-mode buffers))))
+      (let ((buffers-list nil))
+	(maphash
+	 (lambda (k v)
+	   (push (list k v) buffers-list))
+	 buffers)
+	buffers-list)
+      ))
+
+  (defun clover-buf-switch-buffer-action (BUFFER)
+    (let ((mode (format "%s" (car (cdr BUFFER)))))
+      (message "Buffer mode %s" mode)
+      (if (equal mode "exwm-mode")
+	  (clover-buf-switch-buffer-exwm (car BUFFER))
+	(message "Emacs buffer Display"))))
+
+  (defun clover-buf-switch-buffer-exwm (CLASS)
+    (let ((buffers (clover-buf-get-exwm-buffers CLASS)))
+      (ivy-read "Pick window: " buffers
+		:action #'ivy--switch-buffer-action
+		)))
+
+  (defun clover-buf-get-exwm-buffers (CLASS)
+    (message "Class: %s" CLASS)
+    (let ((buffers nil))
+      (dolist ($buf (buffer-list()))
+	(with-current-buffer $buf
+	  (when (equal major-mode 'exwm-mode)
+	    (if (equal exwm-class-name CLASS)
+		(setq buffers (cons (buffer-name) buffers))))))
+      buffers))
+
+  (defun clover-buf-switch-buffer ()
+    (interactive)
+    (let ((buffers (clover-get-buffer-types)))
+      (ivy-read "Pick buffer type: " buffers
+		:action #'clover-buf-switch-buffer-action
+		)
+      ))
+
+  (clover-buf-switch-buffer)
+#+end_src
+

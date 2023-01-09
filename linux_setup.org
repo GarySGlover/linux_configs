@@ -1,4 +1,4 @@
-#+PROPERTY: header-args:bash :tangle ./install_exwm.sh :mkdirp yes
+#+PROPERTY: header-args:bash :tangle ./linxu_setup.sh :mkdirp yes
 * Fix KDE gloal shortcuts
 #+begin_src bash
   hotkeysRC=~/.config/kglobalshortcutsrc
@@ -28,7 +28,9 @@
 * Composition Window Manaer
 This used to be *compton* but is now *picom*
 #+begin_src bash
-  sudo pacman -S picom
+  #sudo pacman -S picom
+
+  sudo pamac install compton-old-git
 #+end_src
 * Web
 #+begin_src bash
@@ -40,7 +42,11 @@ This used to be *compton* but is now *picom*
   sudo pamac install powershell-bin
   sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 #+end_src
-
+** Terraform
+#+begin_src bash
+  sudo pacman -S terraform
+  sudo pamac install terraform-ls
+#+end_src
 * Controllers
 ** Bluetooth Controls Utilities
 #+begin_src bash
