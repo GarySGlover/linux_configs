@@ -132,8 +132,6 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (general-define-key
    :prefix "C-c e"
    "c" 'comment-or-uncomment-region)
-
-
 #+end_src
 package - hydra
 https://github.com/abo-abo/hydra
@@ -213,7 +211,18 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=2975s
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+end_src
+** Keycast
+#+begin_src emacs-lisp
+  (use-package keycast
+    :autoload keycast-tab-bar-mode)
+#+end_src
 * Development
+** Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs)
+  (general-define-key
+   "C-x d" 'treemacs-select-window)
+#+end_src
 ** Projectile
 Main Project
 https://github.com/bbatsov/projectile
