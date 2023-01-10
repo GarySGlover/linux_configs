@@ -52,35 +52,20 @@ This used to be *compton* but is now *picom*
 #+begin_src bash
   sudo pamac install bluetuith
 #+end_src
-
-<<<<<<< HEAD
-** Audio Control
-#+begin_src bash
-  sduo pamac install pacmixer
-#+end_src
-
-** Lock Screen
-#+begin_src bash
-  sudo pacman -S slock xss-lock
-#+end_src
-=======
 * Pulse Audio Mixer
 #+begin_src shell
   pamac install pacmixer
 #+end_src
-
 * Lock Screen
 #+begin_src shell
   sudo pacman -S slock xss-lock
 #+end_src
-
 * Composition Window Manager
 #+begin_src shell
   sudo pacman -S picom
 #+end_src
-
 * Arandr (xrandr GUI) resolution editor
 #+begin_src sh
   sudo pacman -Syu arandr
 #+end_src
->>>>>>> a41e20c (EXWM improvements)
+
