@@ -28,11 +28,6 @@
 
 (global-unset-key (kbd "C-x C-c"))
 
-;;(assq-delete-all 'org package--builtins)
-;;(assq-delete-all 'org package--builtin-versions)
-;;(use-package org
-;;  :ensure t)
-
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((shell . t)))
@@ -43,6 +38,7 @@
 
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+(add-to-list 'org-structure-template-alist '("bash" . "src bash"))
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 
 (setq org-src-window-setup 'current-window)
@@ -65,7 +61,7 @@
   :config
   (with-eval-after-load 'esh-opt
     (setq eshell-destroy-buffer-when-process-dies t)
-    (setq eshell-visual-commands '("vi" "screen" "tmux" "top" "htop" "less" "more" "lynx" "links" "ncftp" "mutt" "pine" "tin" "trn" "elm" "zsh" "bluetuith" "bash")))
+    (add-to-list 'eshell-visual-commands '("bash", "zsh", "bluetuith")))
 
   (eshell-git-prompt-use-theme 'powerline))
 
@@ -74,7 +70,7 @@
 ;; Set up the visible bell
 (setq visible-bell t)
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 100)
 
 (use-package all-the-icons)
   ;; :init
@@ -87,40 +83,6 @@
 
 (use-package doom-themes
   :init (load-theme 'doom-dracula t))
-
-(defun clover/font-size (SIZE)
-  (interactive "nFont Size: ")
-  (set-face-attribute 'default (selected-frame) :height SIZE))
-
-(use-package general)
-
-;; My editing shortcuts
-(general-define-key
- :prefix "C-c e"
- "c" 'comment-or-uncomment-region)
-
-(defun clover-counsel-switch-buffer (regex-list)
-  (let ((ivy-ignore-buffers (append ivy-ignore-buffers regex-list)))
-    (ivy-switch-buffer)))
-
-(defun clover-show-only-firefox-buffers ()
-  (interactive)
-  (clover-ignore-star-and-buffers '("^[^F][^i][^r]")))
-
-(defun clover-show-only-brave-buffers ()
-  (interactive)
-  (clover-ignore-star-and-buffers '("^[^B][^r][^a][^v][^e]")))
-
-(defun clover-ignore-star-buffers ()
-  "ignore everything starting with a star along with whatever ivy's defaults are"
-  (interactive)
-  (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*"))))
-
-(defun clover-ignore-star-and-buffers (regex-list)
-  (interactive)
-  (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
-
-(general-define-key "C-x b" 'clover-ignore-star-buffers)
 
 (setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backup")))
 (setq create-lockfiles nil)
@@ -183,6 +145,14 @@
 
 (use-package keycast
   :autoload keycast-tab-bar-mode)
+
+(use-package hydra)
+
+(use-package general)
+
+(use-package treemacs)
+(general-define-key
+ "C-x d" 'treemacs-select-window)
 
 (use-package projectile
   :diminish projectile-mode
@@ -248,3 +218,69 @@
 
 (use-package yaml-mode
   :hook (yaml-mode . lsp-deferred))
+
+(defun clover/set-frame-font-size (SIZE)
+  (interactive "nFont Size: ")
+  (set-face-attribute 'default (selected-frame) :height SIZE))
+
+(defun clover/font-size-increase (BY)
+  (interactive "nFont Size Increase Amount: ")
+  (let ((height (face-attribute 'default :height (selected-frame))))
+    (clover/set-frame-font-size (+ BY height))))
+
+(defun clover/font-size-decrease (BY)
+  (interactive "nFont Size Decrease Amount: ")
+  (clover/font-size-increase (- BY)))
+
+(defun clover-counsel-switch-buffer (regex-list)
+  (let ((ivy-ignore-buffers (append ivy-ignore-buffers regex-list)))
+    (ivy-switch-buffer)))
+
+(defun clover-show-only-firefox-buffers ()
+  (interactive)
+  (clover-ignore-star-and-buffers '("^[^F][^i][^r]")))
+
+(defun clover-show-only-brave-buffers ()
+  (interactive)
+  (clover-ignore-star-and-buffers '("^[^B][^r][^a][^v][^e]")))
+
+(defun clover-ignore-star-buffers ()
+  "ignore everything starting with a star along with whatever ivy's defaults are"
+  (interactive)
+  (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*"))))
+
+(defun clover-ignore-star-and-buffers (regex-list)
+  (interactive)
+  (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
+
+(general-define-key "C-x b" 'clover-ignore-star-buffers)
+
+;; (defhydra hydra-windows ()
+  ;;   "zoom"
+  ;;   ("e" (clover/font-size-increase 5) "font+")
+  ;;   ("q" (clover/font-size-decrease 5) "font-")
+  ;;   ("i" windmove-up "move-up")
+  ;;   ("k" windmove-down "move-left")
+  ;;   ("j" windmove-left "move-left")
+  ;;   ("l" windmove-right "move-left"))
+
+  (defhydra hydra-windows (:hint nil)
+    "
+^Font^           ^Focus Window^
+^-----------^    ^------------^
+_e_: increase    _i_: up
+_q_: decrease    _k_: down
+^ ^              _j_: left
+^ ^              _l_: right
+"
+    ("e" (clover/font-size-increase 5))
+    ("q" (clover/font-size-decrease 5))
+    ("i" windmove-up)
+    ("k" windmove-down)
+    ("j" windmove-left)
+    ("l" windmove-right))
+
+
+  (general-define-key
+   :prefix "C-c"
+   "z" 'hydra-windows/body)
