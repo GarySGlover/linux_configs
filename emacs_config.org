@@ -117,6 +117,19 @@
   (setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backup")))
   (setq create-lockfiles nil)
 #+end_src
+** Line numbers
+#+begin_src emacs-lisp
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+
+  ;; Disable line numbers for some modes
+  (dolist (mode '(org-mode-hook
+		  term-mode-hook
+		  shell-mode-hook
+		  treemacs-mode-hook
+		  eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
 * Experience Helper Packagesn
 ** Rainbox Delimeters
 #+begin_src emacs-lisp
@@ -317,7 +330,7 @@ https://magit.vc/manual/magit/
   (use-package yaml-mode
     :hook (yaml-mode . lsp-deferred))
 #+end_src
-* Extended Config
+* Clover Functions
 ** Font Size Management
 #+begin_src emacs-lisp
   (defun clover/set-frame-font-size (SIZE)
