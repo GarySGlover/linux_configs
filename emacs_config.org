@@ -402,6 +402,5 @@ _q_: decrease    _k_: down
 
 
   (general-define-key
-   :prefix "C-c"
-   "z" 'hydra-windows/body)
+   "A-z" 'hydra-windows/body)
 #+end_src

@@ -25,6 +25,10 @@
   ;;(efs/run-in-background "pasystray")
   )
 
+(defun clover/xmodmap ()
+  (if (string= (system-name) "clover-20f600a2uk")
+      (start-process-shell-command "xmodmap" nil "xmodmap ~/xmodmap/lenovo_xmodmap")))
+
 (defun efs/exwm-update-class ()
   (exwm-workspace-rename-buffer exwm-class-name))
 
@@ -47,7 +51,8 @@
   (add-hook 'exwm-init-hook #'efs/exwm-init-hook)
 
   ;; Rebind CapsLock to Ctrl
-  (start-process-shell-command "xmodmap" nil "xmodmap ~/.Xmodmap")
+  ;; (start-process-shell-command "xmodmap" nil "xmodmap ~/.Xmodmap")
+  (clover/xmodmap)
 
   ;; Set the screen resolution (update this to be the correct resolution for your screen!)
   (require 'exwm-randr)
@@ -93,7 +98,7 @@
 	  ([s-right] . windmove-right)
 	  ([s-up] . windmove-up)
 	  ([s-down] . windmove-down)
-   	  ([C-s-b] . windmove-left)
+	  ([C-s-b] . windmove-left)
 	  ([C-s-f] . windmove-right)
 	  ([C-s-p] . windmove-up)
 	  ([C-s-n] . windmove-down)
