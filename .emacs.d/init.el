@@ -74,6 +74,13 @@
                         (setq eshell-destroy-buffer-when-process-dies t))
         (eshell-git-prompt-use-theme 'powerline))
 
+(global-auto-revert-mode 1)
+
+(use-package multiple-cursors
+  :bind (("C-c m a" . mc/edit-beginnings-of-line)
+	 ("C-c m r" . mc/mark-all-like-this))
+  )
+
 (use-package hydra)
 
 (use-package general)

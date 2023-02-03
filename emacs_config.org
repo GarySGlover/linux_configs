@@ -97,6 +97,17 @@
                           (setq eshell-destroy-buffer-when-process-dies t))
           (eshell-git-prompt-use-theme 'powerline))
 #+end_src
+** Buffer auto revert
+#+begin_src emacs-lisp
+  (global-auto-revert-mode 1)
+#+end_src
+** Multiple Cursors
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :bind (("C-c m a" . mc/edit-beginnings-of-line)
+	   ("C-c m r" . mc/mark-all-like-this))
+    )
+#+end_src
 * Package Installs No config
 ** Hydra
 package - hydra
