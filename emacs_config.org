@@ -203,6 +203,17 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
           evil-nerd-commenter 
           :bind ("C-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
+* Window Management
+** Window Management
+#+begin_src emacs-lisp
+  (defhydra hydra-windows (global-map "s-j" :hint nil)
+          ("e" (clover/font-size-increase 5)) 
+          ("q" (clover/font-size-decrease 5)) 
+          ("i" windmove-up) 
+          ("k" windmove-down) 
+          ("j" windmove-left) 
+          ("l" windmove-right))
+#+end_src
 * Completion
 ** Counsel
 #+begin_src emacs-lisp
@@ -397,25 +408,3 @@ https://magit.vc/manual/magit/
   (general-define-key "C-x b" 'clover-ignore-star-buffers)
 #+end_src
 ** Hydra Shortcuts
-*** Window Management
-#+begin_src emacs-lisp
-  (defhydra hydra-windows 
-          (:hint nil)
-          "
-  ^Font^           ^Focus Window^
-  ^-----------^    ^------------^
-  _e_: increase    _i_: up
-  _q_: decrease    _k_: down
-  ^ ^              _j_: left
-  ^ ^              _l_: right
-  " ("e" (clover/font-size-increase 5)) 
-          ("q" (clover/font-size-decrease 5)) 
-          ("i" windmove-up) 
-          ("k" windmove-down) 
-          ("j" windmove-left) 
-          ("l" windmove-right))
-
-  (general-define-key "A-z" 'hydra-windows/body)
-#+end_src
-
-
