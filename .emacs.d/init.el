@@ -138,6 +138,14 @@
         evil-nerd-commenter 
         :bind ("C-;" . evilnc-comment-or-uncomment-lines))
 
+(defhydra hydra-windows (global-map "s-j" :hint nil)
+        ("e" (clover/font-size-increase 5)) 
+        ("q" (clover/font-size-decrease 5)) 
+        ("i" windmove-up) 
+        ("k" windmove-down) 
+        ("j" windmove-left) 
+        ("l" windmove-right))
+
 (use-package 
         counsel 
         :bind (("M-x" . counsel-M-x) 
@@ -284,34 +292,3 @@
         (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
 
 (general-define-key "C-x b" 'clover-ignore-star-buffers)
-
-(defhydra hydra-windows 
-        (:hint nil)
-        "
-^Font^           ^Focus Window^
-^-----------^    ^------------^
-_e_: increase    _i_: up
-_q_: decrease    _k_: down
-^ ^              _j_: left
-^ ^              _l_: right
-" ("e" (clover/font-size-increase 5)) 
-        ("q" (clover/font-size-decrease 5)) 
-        ("i" windmove-up) 
-        ("k" windmove-down) 
-        ("j" windmove-left) 
-        ("l" windmove-right))
-
-(general-define-key "A-z" 'hydra-windows/body)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(elisp-format yaml-mode which-key use-package terraform-mode rainbow-delimiters powershell org-bullets ob-powershell multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy keycast ivy-rich helpful general exwm evil-nerd-commenter eshell-git-prompt doom-themes doom-modeline counsel-projectile company-box command-log-mode all-the-icons)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
