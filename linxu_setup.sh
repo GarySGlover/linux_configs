@@ -28,7 +28,3 @@ sudo pacman -S terraform
 sudo pamac install terraform-ls
 
 sudo pamac install bluetuith
-
-sduo pamac install pacmixer
-
-sudo pacman -S slock xss-lock

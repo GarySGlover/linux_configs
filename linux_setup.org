@@ -1,4 +1,6 @@
 #+PROPERTY: header-args:bash :tangle ./linxu_setup.sh :mkdirp yes
+* Kernel headers
+sudo pacman -Syu linux-headers
 * Fix KDE gloal shortcuts
 #+begin_src bash
   hotkeysRC=~/.config/kglobalshortcutsrc
@@ -68,4 +70,25 @@ This used to be *compton* but is now *picom*
 #+begin_src sh
   sudo pacman -Syu arandr
 #+end_src
-
+* Compression Utils
+#+begin_src sh
+  sudo pacman -Syu unzip
+#+end_src
+* NVIDIA
+#+begin_src sh
+  sudo pacman -Ry libva-vdpau-driver
+  sudo pamac install libva-nvidia-driver
+#+end_src
+* OBS Studio - Webcam
+Background removal - https://github.com/royshil/obs-backgroundremoval#linux
+Background blur - https://github.com/xaymar/obs-streamfx/wiki/Installation
+Setup blur filter - https://www.youtube.com/results?search_query=obs+studio+webcam+background+blur
+Virtual green screen - https://www.youtube.com/watch?v=3UNhCrFXGZw
+#+begin_src sh
+  sudo pacman -Syu obs-studio v4l2loopback-dkms v4l2loopback-utils luajit
+  sudo pamac install obs-streamfx-unstable
+  sudo pamac install obs-source-clone
+  git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
+  cd ~/obs/scripts
+  makepkg -s
+#+end_src
