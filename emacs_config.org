@@ -124,6 +124,15 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+begin_src emacs-lisp
   (use-package general)
 #+end_src
+** Epub Reader
+#+begin_src emacs-lisp
+  (use-package nov)
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+#+end_src
+** Whole line kill
+#+begin_src emacs-lisp
+  (use-package whole-line-or-region)
+#+end_src
 * Help
 ** Which Key
 #+begin_src emacs-lisp
@@ -213,6 +222,7 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
           ("k" windmove-down) 
           ("j" windmove-left) 
           ("l" windmove-right))
+  (general-define-key "M-o" 'other-window)
 #+end_src
 * Completion
 ** Counsel
@@ -257,7 +267,7 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+begin_src emacs-lisp
   (use-package 
           treemacs)
-  (general-define-key "C-x d" 'treemacs-select-window)
+  (general-define-key "A-d" 'treemacs-select-window)
 #+end_src
 ** Projectile
 Main Project

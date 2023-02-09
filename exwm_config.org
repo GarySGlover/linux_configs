@@ -87,8 +87,9 @@
 
           ;; These keys should always pass through to Emacs
           (setq exwm-input-prefix-keys '(?\C-x ?\C-u ?\C-h ?\M-x ?\M-`?\M-& ?\M-: ?\C-\M-j ;; Buffer list
-                                                ?\C-\
-                                                ?\s-j ?\s-l)) ;; Ctrl+Space
+                                                ?\C-\ ;; Ctrl+Spacep
+                                                ?\M-o ;; Other window
+                                                ?\s-j ?\s-l))t
 
           ;; Ctrl+Q will enable the next key to be sent directly
           (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)

@@ -1,0 +1,41 @@
+| Key      | keycode | keysym           | New Function | Mod |
+| Fn       |     151 | XF86WakeUp       |              |     |
+| L_Ctrl   |      37 | Control_L        |              |     |
+| WinKey   |     133 | Super_L          | Super_L      |     |
+| Alt      |      64 | Alt_L            | Meta_L       |     |
+| Space    |      65 | space            | -            |     |
+| Alt Gr   |     108 | ISO_Level3_Shift | Alt_L        |     |
+| Menu     |     135 | Menu             | Hyper_L      |     |
+| R_Ctrl   |     105 | Control_R        | Control_R    |     |
+| CapsLock |      66 | Control_L        | Control_L    |     |
+
+xmodmap:  up to 4 keys per modifier, (keycodes in parentheses):
+
+shift       Shift_L (0x32),  Shift_R (0x3e)
+lock        Control_R (0x69)
+control     Control_L (0x25),  Control_L (0x42)
+mod1        Alt_L (0x40),  Alt_L (0xcc),  Meta_L (0xcd)
+mod2        Num_Lock (0x4d)
+mod3        ISO_Level5_Shift (0xcb)
+mod4        Super_L (0x85),  Super_R (0x86),  Super_L (0xce),  Hyper_L (0xcf)
+mod5        ISO_Level3_Shift (0x5c)
+
+* Xmodmap
+clear control
+clear lock
+clear mod1
+clear mod3
+clear mod4
+clear mod5
+
+keycode 66 = Control_L
+keycode 108 = Alt_L
+keycode 64 = Meta_L
+keycode 135 = Hyper_L
+
+add control = Control_L
+add lock = Control_R
+add mod1 = Alt_L
+add mod3 = Meta_L
+add Mod4 = Super_L
+add Mod5 = Hyper_L

@@ -79,7 +79,9 @@
 
         ;; These keys should always pass through to Emacs
         (setq exwm-input-prefix-keys '(?\C-x ?\C-u ?\C-h ?\M-x ?\M-`?\M-& ?\M-: ?\C-\M-j ;; Buffer list
-                                              ?\C-\ )) ;; Ctrl+Space
+                                              ?\C-\ ;; Ctrl+Spacep
+                                              ?\M-o ;; Other window
+                                              ?\s-j ?\s-l))t
 
         ;; Ctrl+Q will enable the next key to be sent directly
         (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
@@ -89,16 +91,6 @@
         (setq exwm-input-global-keys `(
                                               ;; Reset to line-mode (C-c C-k switches to char-mode via exwm-input-release-keyboard)
                                               ([?\s-r] . exwm-reset)
-
-                                              ;; Move between windows
-                                              ([s-left] . windmove-left) 
-                                              ([s-right] . windmove-right) 
-                                              ([s-up] . windmove-up) 
-                                              ([s-down] . windmove-down) 
-                                              ([C-s-b] . windmove-left) 
-                                              ([C-s-f] . windmove-right) 
-                                              ([C-s-p] . windmove-up) 
-                                              ([C-s-n] . windmove-down)
 
                                               ;; Launch applications via shell command
                                               ([?\s-&] . (lambda (command) 

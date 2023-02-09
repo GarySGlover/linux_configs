@@ -85,6 +85,11 @@
 
 (use-package general)
 
+(use-package nov)
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
+(use-package whole-line-or-region)
+
 (use-package 
         which-key 
         :init (which-key-mode) 
@@ -145,6 +150,7 @@
         ("k" windmove-down) 
         ("j" windmove-left) 
         ("l" windmove-right))
+(general-define-key "M-o" 'other-window)
 
 (use-package 
         counsel 
@@ -181,7 +187,7 @@
 
 (use-package 
         treemacs)
-(general-define-key "C-x d" 'treemacs-select-window)
+(general-define-key "A-d" 'treemacs-select-window)
 
 (use-package 
         projectile 
