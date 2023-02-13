@@ -110,8 +110,8 @@
         :init (keycast-tab-bar-mode))
 
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 8)
-(setq-default lisp-indent-offset 8)
+(setq-default tab-width 2)
+(setq-default lisp-indent-offset 2)
 
 (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
 
@@ -130,6 +130,9 @@
 (use-package 
         rainbow-delimiters 
         :hook (prog-mode . rainbow-delimiters-mode))
+
+(setq-default fill-column 80)
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -151,6 +154,9 @@
         ("j" windmove-left) 
         ("l" windmove-right))
 (general-define-key "M-o" 'other-window)
+
+(use-package resize-window
+  :bind (("A-r" . resize-window)))
 
 (use-package 
         counsel 

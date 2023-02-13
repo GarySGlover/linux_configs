@@ -163,8 +163,8 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 ** Tabs and indentation
 #+begin_src emacs-lisp
   (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 8)
-  (setq-default lisp-indent-offset 8)
+  (setq-default tab-width 2)
+  (setq-default lisp-indent-offset 2)
 #+end_src
 ** Org Mode
 *** Babel shell mode
@@ -195,6 +195,11 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
           rainbow-delimiters 
           :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
+** Column ruler
+#+begin_src emacs-lisp
+  (setq-default fill-column 80)
+  (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+#+end_src
 ** Line numbers
 #+begin_src emacs-lisp
   (column-number-mode)
@@ -223,6 +228,11 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
           ("j" windmove-left) 
           ("l" windmove-right))
   (general-define-key "M-o" 'other-window)
+#+end_src
+** Window resizing
+#+begin_src emacs-lisp
+  (use-package resize-window
+    :bind (("A-r" . resize-window)))
 #+end_src
 * Completion
 ** Counsel
