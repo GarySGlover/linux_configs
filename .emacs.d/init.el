@@ -18,6 +18,8 @@
 (unless (server-running-p) 
         (server-start))
 
+(setq disabled-command-function nil)
+
 (setq inhibit-startup-message t)
 
 (scroll-bar-mode -1)                    ; Disable visible scrollbar
@@ -156,7 +158,7 @@
 (general-define-key "M-o" 'other-window)
 
 (use-package resize-window
-  :bind (("A-r" . resize-window)))
+  :bind (("C-c r" . resize-window)))
 
 (use-package 
         counsel 
@@ -193,13 +195,13 @@
 
 (use-package 
         treemacs)
-(general-define-key "A-d" 'treemacs-select-window)
+(general-define-key "C-c d" 'treemacs-select-window)
 
 (use-package 
         projectile 
         :diminish projectile-mode 
         :config (projectile-mode) 
-        :bind-keymap ("A-p" . projectile-command-map) 
+        :bind-keymap ("C-c p" . projectile-command-map) 
         :init (setq projectile-switch-project-action #'projectile-dired))
 
 ;; Projectile Counsel
@@ -212,7 +214,7 @@
         magit 
         :commands (magit-status magit-get-current-branch) 
         :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1) 
-        :bind ("A-g" . magit-status))
+        :bind ("C-c g" . magit-status))
 
 (defun efs/lsp-mode-setup () 
         (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols)) 
@@ -221,7 +223,7 @@
 (use-package 
         lsp-mode 
         :commands (lsp lsp-deferred) 
-        :init (setq lsp-keymap-prefix "A-l") 
+        :init (setq lsp-keymap-prefix "C-c l") 
         :config (lsp-enable-which-key-integration t) 
         :hook (lsp-mode . efs/lsp-mode-setup))
 
@@ -252,7 +254,7 @@
 (use-package 
         elisp-format 
         :bind (:map emacs-lisp-mode-map
-                      ("A-f" . elisp-format-buffer)))
+                      ("C-c f" . elisp-format-buffer)))
 
 (use-package 
         ob-powershell)
