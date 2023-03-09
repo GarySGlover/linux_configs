@@ -1,8 +1,41 @@
 #+PROPERTY: header-args:bash :tangle ./linxu_setup.sh :mkdirp yes
+* Full update
+#+begin_src bash
+  sudo pacman -Syo --noconfirm
+  pamac update --force-refresh --no-confirm --aur
+#+end_src
+* Full pamac
+#+begin_src bash
+  sudo pacman -Ry libva-vdpau-driver
+
+  pamac install --no-confirm \
+        linux-headers \
+        ttf-fira-code \
+        compton-old-git \
+        nyxt \
+        powershell-bin \
+        terraform terraform-ls \
+        bluetuith \
+        pacmixer \
+        slock xss-lock \
+        arandr \
+        unzip \
+        libva-nvidia-driver \
+        obs-studio v4l2loopback-dkms v4l2loopback-utils luajit obs-streamfx-unstable \
+        obs-source-clone \
+        azure-cli \
+        google-chrome \
+        prusa-slicer-gtk2-bin \
+        make cmake arm-none-eabi-binutils arm-none-eabi-gcc gcc-arm-none-eabi-bin arm-none-eabi-newlib arm-none-eabi-gdb
+
+  git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
+  cd ~/obs/scripts
+  makepkg -s
+#+end_src
 * Kernel headers
 sudo pacman -Syu linux-headers
 * Fix KDE gloal shortcuts
-#+begin_src bash
+#+begin_src sh
   hotkeysRC=~/.config/kglobalshortcutsrc
 
   # Remove application launching shortcuts.
@@ -16,42 +49,42 @@ sudo pacman -Syu linux-headers
 #+end_src
 
 * Git config
-#+begin_src bash
+#+begin_src sh
   git config --global credential.helper 'store --file ~/.my-credentials'
   git config --global user.name "Gary Glover"
   git config --global user.email "light.bed5489@fourleafclover.uk"
 #+end_src
 
 * Fire Code Font
-#+begin_src bash
+#+begin_src sh
   sudo pacman -S ttf-fira-code
 #+end_src
 
 * Composition Window Manaer
 This used to be *compton* but is now *picom*
-#+begin_src bash
+#+begin_src sh
   #sudo pacman -S picom
 
   sudo pamac install compton-old-git
 #+end_src
 * Web
-#+begin_src bash
+#+begin_src sh
   sudo pacman -S nyxt
 #+end_src
 * Languages
 ** Powershell
-#+begin_src bash
+#+begin_src sh
   sudo pamac install powershell-bin
   sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
 #+end_src
 ** Terraform
-#+begin_src bash
+#+begin_src sh
   sudo pacman -S terraform
   sudo pamac install terraform-ls
 #+end_src
 * Controllers
 ** Bluetooth Controls Utilities
-#+begin_src bash
+#+begin_src sh
   sudo pamac install bluetuith
 #+end_src
 * Pulse Audio Mixer

@@ -1,30 +1,23 @@
-hotkeysRC=~/.config/kglobalshortcutsrc
+pamac update --force-refresh --no-confirm --aur
 
-# Remove application launching shortcuts.
-sed -i 's/_launch=[^,]*/_launch=none/g' $hotkeysRC
+sudo pacman -Ry libva-vdpau-driver
 
-# Remove other global shortcuts.
-sed -i 's/^\([^_].*\)=[^,]*/\1=none/g' $hotkeysRC
+pamac install --no-confirm \
+      linux-headers \
+      ttf-fira-code \
+      compton-old-git \
+      nyxt \
+      powershell-bin \
+      terraform terraform-ls \
+      bluetuith \
+      pacmixer \
+      slock xss-lock \
+      arandr \
+      unzip \
+      libva-nvidia-driver \
+      obs-studio v4l2loopback-dkms v4l2loopback-utils luajit obs-streamfx-unstable \
+      obs-source-clone
 
-# Reload hotkeys.
-kquitapp5 kglobalaccel && sleep 2s && kglobalaccel5 &
-
-git config --global credential.helper 'store --file ~/.my-credentials'
-git config --global user.name "Gary Glover"
-git config --global user.email "light.bed5489@fourleafclover.uk"
-
-sudo pacman -S ttf-fira-code
-
-#sudo pacman -S picom
-
-sudo pamac install compton-old-git
-
-sudo pacman -S nyxt
-
-sudo pamac install powershell-bin
-sudo ln -T /usr/bin/pwsh /usr/bin/powershell -s
-
-sudo pacman -S terraform
-sudo pamac install terraform-ls
-
-sudo pamac install bluetuith
+git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
+cd ~/obs/scripts
+makepkg -s
