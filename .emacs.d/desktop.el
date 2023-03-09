@@ -4,7 +4,7 @@
 
 (defun efs/exwm-init-hook ()
   ;; Make workspace 1 be the one where we land at startup
-  (exwm-workspace-switch-create 1)
+  (exwm-workspace-switch-create 4)
 
   ;; Open eshell by default
   (eshell)
@@ -24,12 +24,6 @@
   ;; Pulse Audio
   ;;(efs/run-in-background "pasystray")
   )
-
-(defun clover/xmodmap () 
-  (cond ((string= (system-name) "clover-20f600a2uk") 
-	 (start-process-shell-command "xmodmap" nil "xmodmap ~/xmodmap/lenovo_xmodmap")) 
-	((string= (system-name) "clover-z270pd3") 
-	 (start-process-shell-command "xmodmap" nil "xmodmap ~/xmodmap/redragon_keyboard_xmodmap"))))
 
 (defun efs/exwm-update-class () 
         (exwm-workspace-rename-buffer exwm-class-name))
@@ -55,8 +49,7 @@
         (add-hook 'exwm-init-hook #'efs/exwm-init-hook)
 
         ;; Rebind CapsLock to Ctrl
-        ;; (start-process-shell-command "xmodmap" nil "xmodmap ~/.Xmodmap")
-        (clover/xmodmap)
+        (start-process-shell-command "xmodmap" nil "xmodmap ~/.Xmodmap")
 
         ;; Set the screen resolution (update this to be the correct resolution for your screen!)
         (require 'exwm-randr) 
@@ -74,8 +67,8 @@
         ;; (exwm-systemtray-enable)
 
         ;; Allow buffers on all workspaces
-        ;; (setq exwm-workspace-show-all-buffers 1)
-        ;; (setq exwm-layout-show-all-buffers t)
+        (setq exwm-workspace-show-all-buffers 1)
+        (setq exwm-layout-show-all-buffers t)
 
         ;; These keys should always pass through to Emacs
         (setq exwm-input-prefix-keys '(?\C-x ?\C-u ?\C-h ?\M-x ?\M-`?\M-& ?\M-: ?\C-\M-j ;; Buffer list
