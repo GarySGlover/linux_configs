@@ -22,13 +22,13 @@
 
 (setq inhibit-startup-message t)
 
-(scroll-bar-mode -1)                    ; Disable visible scrollbar
-(tool-bar-mode -1)                      ; Disable the toolbar
-(tooltip-mode -1)                       ; Disable tooltips
+; (scroll-bar-mode -1)                    ; Disable visible scrollbar
+; (tool-bar-mode -1)                      ; Disable the toolbar
+; (tooltip-mode -1)                       ; Disable tooltips
 (set-fringe-mode 10)                    ; Give some breathing room
-(menu-bar-mode -1)                      ; Disable the menu bar
+; (menu-bar-mode -1)                      ; Disable the menu bar
 
-(global-unset-key (kbd "C-x C-c"))
+; (global-unset-key (kbd "C-x C-c"))
 
 (setq vc-follow-symlinks t)
 
@@ -159,6 +159,13 @@
 
 (use-package resize-window
   :bind (("C-c r" . resize-window)))
+
+(defun display-buffer-from-compilation-p (_buffer-name _action) 
+  (unless current-prefix-arg (with-current-buffer (window-buffer) 
+                               (derived-mode-p 'compilation-mode))))
+
+(push '(display-buffer-from-compilation-p display-buffer-same-window (inhibit-same-window . nil))
+  display-buffer-alist)
 
 (use-package 
         counsel 
@@ -306,3 +313,17 @@
         (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
 
 (general-define-key "C-x b" 'clover-ignore-star-buffers)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-indent-guides-method 'character)
+ '(package-selected-packages
+    '(highlight-indent-guides whole-line-or-region which-key use-package terraform-mode resize-window rainbow-delimiters powershell org-bullets ob-powershell nov multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy kubel kubedoc keycast kele ivy-rich helpful general exwm evil-nerd-commenter eshell-git-prompt elisp-format doom-themes doom-modeline counsel-projectile company-box command-log-mode all-the-icons)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
