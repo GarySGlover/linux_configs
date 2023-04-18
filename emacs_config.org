@@ -167,8 +167,8 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 ** Tabs and indentation
 #+begin_src emacs-lisp
   (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 2)
-  (setq-default lisp-indent-offset 2)
+  (setq-default tab-width 4)
+  (setq-default lisp-indent-offset 4)
 #+end_src
 ** Org Mode
 *** Babel shell mode

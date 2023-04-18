@@ -112,8 +112,8 @@
         :init (keycast-tab-bar-mode))
 
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
-(setq-default lisp-indent-offset 2)
+(setq-default tab-width 4)
+(setq-default lisp-indent-offset 4)
 
 (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
 
