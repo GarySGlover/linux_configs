@@ -78,8 +78,9 @@
 #+end_src
 ** Backup / Lock files locations
 #+begin_src emacs-lisp
-  (setq backup-directory-alist '(("" . "~/.emacs.d/emacs_backup")))
+  (setq backup-directory-alist '((".*" . "~/.emacs.d/emacs_backup")))
   (setq create-lockfiles nil)
+  (setq auto-save-file-name-transforms `((".*" "~/.emacs.d/emacs_backup" t)))
 #+end_src
 ** Shell Mode
 *** eshell
