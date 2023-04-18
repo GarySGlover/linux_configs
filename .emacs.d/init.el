@@ -70,7 +70,7 @@
 (use-package 
         eshell-git-prompt)
 
-(use-package
+(use-package 
         eshell 
         :hook (eshell-first-time-mode . efs/configure-eshell)
         :config (with-eval-after-load 'esh-opt 
@@ -153,6 +153,12 @@
   :hook prog-mode
   :bind ("C-c h" . highlight-indent-guides-mode)
   :init (setq highlight-indent-guides-method 'character))
+
+(use-package dtrt-indent
+    :hook prog-mode
+    :bind (("C-c i d" . dtrt-indent-diagnosis)
+            ("C-c i h" . dtrt-indent-highlight)
+            ("C-c i u" . dtrt-indent-undo)))
 
 (defhydra hydra-windows (global-map "s-j" :hint nil)
         ("e" (clover/font-size-increase 5)) 

@@ -229,6 +229,14 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
     :bind ("C-c h" . highlight-indent-guides-mode)
     :init (setq highlight-indent-guides-method 'character))
 #+end_src
+** Auto detect indentation
+#+begin_src emacs-lisp
+  (use-package dtrt-indent
+      :hook prog-mode
+      :bind (("C-c i d" . dtrt-indent-diagnosis)
+              ("C-c i h" . dtrt-indent-highlight)
+              ("C-c i u" . dtrt-indent-undo)))
+#+end_src
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
