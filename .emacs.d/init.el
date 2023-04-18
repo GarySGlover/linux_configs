@@ -149,6 +149,11 @@
         evil-nerd-commenter 
         :bind ("C-;" . evilnc-comment-or-uncomment-lines))
 
+(use-package highlight-indent-guides
+  :hook prog-mode
+  :bind ("C-c h" . highlight-indent-guides-mode)
+  :init (setq highlight-indent-guides-method 'character))
+
 (defhydra hydra-windows (global-map "s-j" :hint nil)
         ("e" (clover/font-size-increase 5)) 
         ("q" (clover/font-size-decrease 5)) 

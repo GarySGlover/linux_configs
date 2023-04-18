@@ -222,6 +222,13 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
           evil-nerd-commenter 
           :bind ("C-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
+** Highlight indentation
+#+begin_src emacs-lisp
+  (use-package highlight-indent-guides
+    :hook prog-mode
+    :bind ("C-c h" . highlight-indent-guides-mode)
+    :init (setq highlight-indent-guides-method 'character))
+#+end_src
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
