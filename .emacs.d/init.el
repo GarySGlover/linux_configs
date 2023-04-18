@@ -160,6 +160,11 @@
             ("C-c i h" . dtrt-indent-highlight)
             ("C-c i u" . dtrt-indent-undo)))
 
+(use-package whitespace
+    :hook prog-mode
+    :init (setq whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))
+    :bind (("C-c w" . whitespace-mode)))
+
 (defhydra hydra-windows (global-map "s-j" :hint nil)
         ("e" (clover/font-size-increase 5)) 
         ("q" (clover/font-size-decrease 5)) 

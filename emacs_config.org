@@ -237,6 +237,13 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
               ("C-c i h" . dtrt-indent-highlight)
               ("C-c i u" . dtrt-indent-undo)))
 #+end_src
+** Highlight whitespace
+#+begin_src emacs-lisp
+  (use-package whitespace
+      :hook prog-mode
+      :init (setq whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))
+      :bind (("C-c w" . whitespace-mode)))
+#+End_src
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
