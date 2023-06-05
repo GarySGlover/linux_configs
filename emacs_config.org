@@ -5,14 +5,14 @@
   ;; Initialize package sources
   (require 'package)
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/") 
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                                   ("elpa" . "https://elpa.gnu.org/packages/")))
 
   (package-initialize)
   (unless package-archive-contents (package-refresh-contents))
 
   ;; Initialize use-package on non-Linux platforms
-  (unless (package-installed-p 'use-package) 
+  (unless (package-installed-p 'use-package)
           (package-install 'use-package))
 
   ;; (require 'use-package)
@@ -21,7 +21,7 @@
 ** Start emacs server
 #+begin_src emacs-lisp
   (require 'server)
-  (unless (server-running-p) 
+  (unless (server-running-p)
           (server-start))
 #+end_src
 ** Enabled the disabled commands
@@ -57,23 +57,23 @@
   ;; Set up the visible bell
   (setq visible-bell t)
 
-  (set-face-attribute 'default nil 
-          :font "Fira Code Retina" 
+  (set-face-attribute 'default nil
+          :font "Fira Code Retina"
           :height 100)
 
-  (use-package 
+  (use-package
           all-the-icons)
   ;; :init
   ;; (all-the-icons-install-fonts t)
 
-  (use-package 
-          doom-modeline 
-          :ensure t 
-          :init (doom-modeline-mode 1) 
+  (use-package
+          doom-modeline
+          :ensure t
+          :init (doom-modeline-mode 1)
           :custom ((doom-modeline-height 15)))
 
-  (use-package 
-          doom-themes 
+  (use-package
+          doom-themes
           :init (load-theme 'doom-dracula t))
 #+end_src
 ** Backup / Lock files locations
@@ -85,20 +85,20 @@
 ** Shell Mode
 *** eshell
 #+begin_src emacs-lisp
-  (defun efs/configure-eshell () 
+  (defun efs/configure-eshell () P
           (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
           (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
           (setq eshell-history-size 10000 eshell-buffer-maximum-lines 10000 eshell-hist-ignoredups t
                   eshell-scroll-to-bottom-on-input t)
           (setq eshell-visual-commands (append eshell-visual-commands '("bash" "zsh" "bluetuith"))))
 
-  (use-package 
+  (use-package
           eshell-git-prompt)
 
-  (use-package 
-          eshell 
+  (use-package
+          eshell
           :hook (eshell-first-time-mode . efs/configure-eshell)
-          :config (with-eval-after-load 'esh-opt 
+          :config (with-eval-after-load 'esh-opt
                           (setq eshell-destroy-buffer-when-process-dies t))
           (eshell-git-prompt-use-theme 'powerline))
 #+end_src
@@ -141,27 +141,27 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 * Help
 ** Which Key
 #+begin_src emacs-lisp
-  (use-package 
-          which-key 
-          :init (which-key-mode) 
-          :diminish which-key-mode 
+  (use-package
+          which-key
+          :init (which-key-mode)
+          :diminish which-key-mode
           :config)
 #+end_src
 ** Helpful
 #+begin_src emacs-lisp
-  (use-package 
-          helpful 
-          :custom (counsel-describe-function-function #'helpful-callable) 
-          (counsel-describe-variable-function #'helpful-variable) 
-          :bind ([remap describe-function] . counsel-describe-function) 
-          ([remap describe-command] . helpful-command) 
-          ([remap describe-variable] . counsel-describe-variable) 
+  (use-package
+          helpful
+          :custom (counsel-describe-function-function #'helpful-callable)
+          (counsel-describe-variable-function #'helpful-variable)
+          :bind ([remap describe-function] . counsel-describe-function)
+          ([remap describe-command] . helpful-command)
+          ([remap describe-variable] . counsel-describe-variable)
           ([remap describe-key] . helpful-key))
 #+end_src
 ** Keycast
 #+begin_src emacs-lisp
-  (use-package 
-          keycast 
+  (use-package
+          keycast
           :init (keycast-tab-bar-mode))
 #+end_src
 * Buffer Editing
@@ -176,11 +176,21 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+begin_src emacs-lisp
   (org-babel-do-load-languages 'org-babel-load-languages '((shell . t)))
 #+end_src
+*** Tangle buffer
+#+begin_src emacs-lisp
+  (defun org-babel-tangle-config ()
+      (when (string-equal (buffer-file-name)
+                (expand-file-name "~/linux_configs/emacs_config.org"))
+          (let ((org-config-babel-evaluate nil))
+              (org-babel-tangle))))
+  (add-hook 'org-mode-hook (lambda ()
+                               (add-hook 'after-save-hook #'org-babel-tangle-config)))
+#+end_src
 *** Org mode bullets
 #+begin_src emacs-lisp
-  (use-package 
-          org-bullets 
-          :after org 
+  (use-package
+          org-bullets
+          :after org
           :hook (org-mode . org-bullets-mode))
 #+end_src
 *** Org templates
@@ -196,8 +206,8 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+end_src
 ** Rainbox Delimeters
 #+begin_src emacs-lisp
-  (use-package 
-          rainbow-delimiters 
+  (use-package
+          rainbow-delimiters
           :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 ** Column ruler
@@ -211,15 +221,15 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (global-display-line-numbers-mode t)
 
   ;; Disable line numbers for some modes
-  (dolist (mode '(org-mode-hook term-mode-hook shell-mode-hook treemacs-mode-hook eshell-mode-hook)) 
-          (add-hook mode (lambda () 
+  (dolist (mode '(org-mode-hook term-mode-hook shell-mode-hook treemacs-mode-hook eshell-mode-hook))
+          (add-hook mode (lambda ()
                                  (display-line-numbers-mode 0))))
 #+end_src
 
 ** Line commenting
 #+begin_src emacs-lisp
-  (use-package 
-          evil-nerd-commenter 
+  (use-package
+          evil-nerd-commenter
           :bind ("C-;" . evilnc-comment-or-uncomment-lines))
 #+end_src
 ** Highlight indentation
@@ -244,15 +254,20 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
       :init (setq whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))
       :bind (("C-c w" . whitespace-mode)))
 #+End_src
+** Auto remove whitespace
+#+begin_src emacs-lisp
+  (use-package ws-butler
+      :hook prog-mode org-mode)
+#+End_src
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
   (defhydra hydra-windows (global-map "s-j" :hint nil)
-          ("e" (clover/font-size-increase 5)) 
-          ("q" (clover/font-size-decrease 5)) 
-          ("i" windmove-up) 
-          ("k" windmove-down) 
-          ("j" windmove-left) 
+          ("e" (clover/font-size-increase 5))
+          ("q" (clover/font-size-decrease 5))
+          ("i" windmove-up)
+          ("k" windmove-down)
+          ("j" windmove-left)
           ("l" windmove-right))
   (general-define-key "M-o" 'other-window)
 #+end_src
@@ -263,8 +278,8 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+end_src
 ** Display buffer
 #+begin_src emacs-lisp
-  (defun display-buffer-from-compilation-p (_buffer-name _action) 
-    (unless current-prefix-arg (with-current-buffer (window-buffer) 
+  (defun display-buffer-from-compilation-p (_buffer-name _action)
+    (unless current-prefix-arg (with-current-buffer (window-buffer)
                                  (derived-mode-p 'compilation-mode))))
 
   (push '(display-buffer-from-compilation-p display-buffer-same-window (inhibit-same-window . nil))
@@ -273,45 +288,45 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 * Completion
 ** Counsel
 #+begin_src emacs-lisp
-  (use-package 
-          counsel 
-          :bind (("M-x" . counsel-M-x) 
-                        ("C-x b" . counsel-switch-buffer) 
-                        ("C-x C-f" . counsel-find-file) 
-                        :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history)) 
-          :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only) 
-          :config (setq ivy-initial-inputs-alist nil) 
+  (use-package
+          counsel
+          :bind (("M-x" . counsel-M-x)
+                        ("C-x b" . counsel-switch-buffer)
+                        ("C-x C-f" . counsel-find-file)
+                        :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
+          :custom (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+          :config (setq ivy-initial-inputs-alist nil)
           (setq counsel-switch-buffer-preview-virtual-buffers nil))
 #+end_src
 ** Ivy
 #+begin_src emacs-lisp
-  (use-package 
-          swiper 
+  (use-package
+          swiper
           :ensure t)
 
-  (use-package 
-          ivy 
+  (use-package
+          ivy
 
-          :diminish 
-          :bind (("C-s" . swiper) :map ivy-minibuffer-map ("TAB" . ivy-alt-done) 
-                        ("C-l" . ivy-alt-done) 
-                        ("C-j" . ivy-next-line) 
-                        ("C-k" . ivy-previous-line) 
-                        :map ivy-switch-buffer-map ("C-k" . ivy-previous-line) 
-                        ("C-l" . ivy-done) 
-                        ("C-d" . ivy-switch-buffer-kill) 
-                        :map ivy-reverse-i-search-map ("C-k" . ivy-previous-line) 
-                        ("C-d" . ivy-reverse-i-search-kill)) 
+          :diminish
+          :bind (("C-s" . swiper) :map ivy-minibuffer-map ("TAB" . ivy-alt-done)
+                        ("C-l" . ivy-alt-done)
+                        ("C-j" . ivy-next-line)
+                        ("C-k" . ivy-previous-line)
+                        :map ivy-switch-buffer-map ("C-k" . ivy-previous-line)
+                        ("C-l" . ivy-done)
+                        ("C-d" . ivy-switch-buffer-kill)
+                        :map ivy-reverse-i-search-map ("C-k" . ivy-previous-line)
+                        ("C-d" . ivy-reverse-i-search-kill))
           :config (ivy-mode 1))
 
-  (use-package 
-          ivy-rich 
+  (use-package
+          ivy-rich
           :init (ivy-rich-mode 1))
 #+end_src
 * Development
 ** Treemacs
 #+begin_src emacs-lisp
-  (use-package 
+  (use-package
           treemacs)
   (general-define-key "C-c d" 'treemacs-select-window)
 #+end_src
@@ -323,17 +338,17 @@ https://docs.projectile.mx/projectile/index.html
 Counsel Integration
 https://github.com/ericdanan/counsel-projectile
 #+begin_src emacs-lisp
-  (use-package 
-          projectile 
-          :diminish projectile-mode 
-          :config (projectile-mode) 
-          :bind-keymap ("C-c p" . projectile-command-map) 
+  (use-package
+          projectile
+          :diminish projectile-mode
+          :config (projectile-mode)
+          :bind-keymap ("C-c p" . projectile-command-map)
           :init (setq projectile-switch-project-action #'projectile-dired))
 
   ;; Projectile Counsel
-  (use-package 
-          counsel-projectile 
-          :after projectile 
+  (use-package
+          counsel-projectile
+          :after projectile
           :config (counsel-projectile-mode 1))
 #+end_src
 ** Magit
@@ -342,29 +357,29 @@ https://github.com/magit/magit
 Manual
 https://magit.vc/manual/magit/
 #+begin_src emacs-lisp
-  (use-package 
-          magit 
-          :commands (magit-status magit-get-current-branch) 
-          :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1) 
+  (use-package
+          magit
+          :commands (magit-status magit-get-current-branch)
+          :custom (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
           :bind ("C-c g" . magit-status))
 #+end_src
 ** LSP Mode Setup
 #+begin_src emacs-lisp
-  (defun efs/lsp-mode-setup () 
-          (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols)) 
+  (defun efs/lsp-mode-setup ()
+          (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
           (lsp-headerline-breadcrumb-mode))
 
-  (use-package 
-          lsp-mode 
-          :commands (lsp lsp-deferred) 
-          :init (setq lsp-keymap-prefix "C-c l") 
-          :config (lsp-enable-which-key-integration t) 
+  (use-package
+          lsp-mode
+          :commands (lsp lsp-deferred)
+          :init (setq lsp-keymap-prefix "C-c l")
+          :config (lsp-enable-which-key-integration t)
           :hook (lsp-mode . efs/lsp-mode-setup))
 #+end_src
 *** LSP UI
 #+begin_src emacs-lisp
-  (use-package 
-          lsp-ui 
+  (use-package
+          lsp-ui
           :hook (lsp-mode . lsp-ui-mode))
 #+end_src
 *** LSP Treemacs
@@ -378,87 +393,87 @@ https://magit.vc/manual/magit/
 #+end_src
 ** Company Mode Completions
 #+begin_src emacs-lisp
-  (use-package 
-          company 
-          :after lsp-mode 
-          :hook (prog-mode . company-mode) 
+  (use-package
+          company
+          :after lsp-mode
+          :hook (prog-mode . company-mode)
           :bind (:map company-active-map
-                        ("<tab>" . company-complete-selection)) 
-          (:map lsp-mode-map 
-                  ("<tab>" . company-indent-or-complete-common)) 
-          :custom (company-minimum-prefix-length 1) 
+                        ("<tab>" . company-complete-selection))
+          (:map lsp-mode-map
+                  ("<tab>" . company-indent-or-complete-common))
+          :custom (company-minimum-prefix-length 1)
           (company-idle-delay 0.0))
 
-  (use-package 
-          company-box 
+  (use-package
+          company-box
           :hook (company-mode . company-box-mode))
 #+end_src
 ** Languages
 *** Elisp
 #+begin_src emacs-lisp
-  (use-package 
-          elisp-format 
+  (use-package
+          elisp-format
           :bind (:map emacs-lisp-mode-map
                         ("C-c f" . elisp-format-buffer)))
 #+end_src
 *** Powershell
 #+begin_src emacs-lisp
-  (use-package 
+  (use-package
           ob-powershell)
-  (use-package 
+  (use-package
           powershell)
 #+end_src
 *** Terraform
 #+begin_src emacs-lisp
-  (use-package 
-          terraform-mode 
+  (use-package
+          terraform-mode
           :hook (terraform-mode . lsp-deferred))
 #+end_src
 *** YAML
 #+begin_src emacs-lisp
-  (use-package 
-          yaml-mode 
+  (use-package
+          yaml-mode
           :hook (yaml-mode . lsp-deferred))
 #+end_src
 * Clover Functions
 ** Font Size Management
 #+begin_src emacs-lisp
-  (defun clover/set-frame-font-size (SIZE) 
-          (interactive "nFont Size: ") 
-          (set-face-attribute 'default (selected-frame) 
+  (defun clover/set-frame-font-size (SIZE)
+          (interactive "nFont Size: ")
+          (set-face-attribute 'default (selected-frame)
                   :height SIZE))
 
-  (defun clover/font-size-increase (BY) 
-          (interactive "nFont Size Increase Amount: ") 
-          (let ((height (face-attribute 'default 
-                                :height (selected-frame)))) 
+  (defun clover/font-size-increase (BY)
+          (interactive "nFont Size Increase Amount: ")
+          (let ((height (face-attribute 'default
+                                :height (selected-frame))))
                   (clover/set-frame-font-size (+ BY height))))
 
-  (defun clover/font-size-decrease (BY) 
-          (interactive "nFont Size Decrease Amount: ") 
+  (defun clover/font-size-decrease (BY)
+          (interactive "nFont Size Decrease Amount: ")
           (clover/font-size-increase (- BY)))
 #+end_src
 ** Buffer Filters
 #+begin_src emacs-lisp
-  (defun clover-counsel-switch-buffer (regex-list) 
-          (let ((ivy-ignore-buffers (append ivy-ignore-buffers regex-list))) 
+  (defun clover-counsel-switch-buffer (regex-list)
+          (let ((ivy-ignore-buffers (append ivy-ignore-buffers regex-list)))
                   (ivy-switch-buffer)))
 
-  (defun clover-show-only-firefox-buffers () 
-          (interactive) 
+  (defun clover-show-only-firefox-buffers ()
+          (interactive)
           (clover-ignore-star-and-buffers '("^[^F][^i][^r]")))
 
-  (defun clover-show-only-brave-buffers () 
-          (interactive) 
+  (defun clover-show-only-brave-buffers ()
+          (interactive)
           (clover-ignore-star-and-buffers '("^[^B][^r][^a][^v][^e]")))
 
-  (defun clover-ignore-star-buffers () 
-          "ignore everything starting with a star along with whatever ivy's defaults are" 
-          (interactive) 
+  (defun clover-ignore-star-buffers ()
+          "ignore everything starting with a star along with whatever ivy's defaults are"
+          (interactive)
           (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*"))))
 
-  (defun clover-ignore-star-and-buffers (regex-list) 
-          (interactive) 
+  (defun clover-ignore-star-and-buffers (regex-list)
+          (interactive)
           (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
 
   (general-define-key "C-x b" 'clover-ignore-star-buffers)

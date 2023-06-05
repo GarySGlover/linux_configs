@@ -26,7 +26,8 @@
         azure-cli \
         google-chrome \
         prusa-slicer-gtk2-bin \
-        make cmake arm-none-eabi-binutils arm-none-eabi-gcc gcc-arm-none-eabi-bin arm-none-eabi-newlib arm-none-eabi-gdb
+        make cmake arm-none-eabi-binutils arm-none-eabi-gcc gcc-arm-none-eabi-bin arm-none-eabi-newlib arm-none-eabi-gdb \
+        docker
 
   git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
   cd ~/obs/scripts
