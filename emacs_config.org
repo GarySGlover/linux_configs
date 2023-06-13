@@ -138,6 +138,11 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+begin_src emacs-lisp
   (use-package whole-line-or-region)
 #+end_src
+** Restclient
+#+begin_src emacs-lisp
+  (use-package restclient
+      :mode ("\\.rest\\'" . restclient-mode))
+#+end_src
 * Help
 ** Which Key
 #+begin_src emacs-lisp

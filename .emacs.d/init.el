@@ -93,6 +93,9 @@
 
 (use-package whole-line-or-region)
 
+(use-package restclient
+    :mode ("\\.rest\\'" . restclient-mode))
+
 (use-package
         which-key
         :init (which-key-mode)
@@ -341,16 +344,3 @@
         (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
 
 (general-define-key "C-x b" 'clover-ignore-star-buffers)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-      '(js-auto-beautify web-beautify ws-butler whole-line-or-region which-key use-package terraform-mode resize-window rainbow-delimiters powershell org-bullets ob-powershell nov multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy kubel kubedoc keycast kele ivy-rich highlight-indent-guides helpful general exwm evil-nerd-commenter eshell-git-prompt elisp-format dtrt-indent doom-themes doom-modeline docker counsel-projectile company-box command-log-mode all-the-icons)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
