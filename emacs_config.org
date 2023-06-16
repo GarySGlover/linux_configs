@@ -106,14 +106,7 @@
 #+begin_src emacs-lisp
   (global-auto-revert-mode 1)
 #+end_src
-** Multiple Cursors
-#+begin_src emacs-lisp
-  (use-package multiple-cursors
-    :bind (("C-c m a" . mc/edit-beginnings-of-line)
-	   ("C-c m r" . mc/mark-all-like-this))
-    )
-#+end_src
-* Package Installs No config
+* Package Installs
 ** Hydra
 package - hydra
 https://github.com/abo-abo/hydra
@@ -142,6 +135,27 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 #+begin_src emacs-lisp
   (use-package restclient
       :mode ("\\.rest\\'" . restclient-mode))
+#+end_src
+** Keyfrequency
+#+begin_src emacs-lisp
+  (use-package keyfreq
+      :init
+      (keyfreq-mode 1)
+      (keyfreq-autosave-mode 1)
+      (setq keyfreq-excluded-commands
+          '(self-insert-command
+               mouse-drag-region
+               org-delete-backward-char
+               mouse-set-region
+               ivy-backward-delete-char
+               mouse-set-point
+               ignore
+               y-or-n-p-insert-y
+               )))
+#+end_sr
+** Very large files
+#+begin_src emacs-lisp
+  (use-package vlf)
 #+end_src
 * Help
 ** Which Key
@@ -204,11 +218,21 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
   (add-to-list 'org-structure-template-alist '("bash" . "src bash"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("nims" . "src nims"))
 #+end_src
 *** Source Code Edit Buffer
 #+begin_src emacs-lisp
   (setq org-src-window-setup 'current-window)
 #+end_src
+*** Clear buffer results
+#+begin_src emacs-lisp
+  (defun org-babel-remove-result-all ()
+      (interactive)
+      (org-babel-remove-result-one-or-many 1))
+  (use-package org-bullets
+      :bind ("C-c C-v C-k" . org-babel-remove-result-all))
+#+end_src
+
 ** Rainbox Delimeters
 #+begin_src emacs-lisp
   (use-package

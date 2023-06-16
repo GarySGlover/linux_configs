@@ -79,11 +79,6 @@
 
 (global-auto-revert-mode 1)
 
-(use-package multiple-cursors
-  :bind (("C-c m a" . mc/edit-beginnings-of-line)
-	 ("C-c m r" . mc/mark-all-like-this))
-  )
-
 (use-package hydra)
 
 (use-package general)
@@ -95,6 +90,21 @@
 
 (use-package restclient
     :mode ("\\.rest\\'" . restclient-mode))
+
+(use-package keyfreq
+    :init
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1)
+    (setq keyfreq-excluded-commands
+        '(self-insert-command
+             mouse-drag-region
+             org-delete-backward-char
+             mouse-set-region
+             ivy-backward-delete-char
+             mouse-set-point
+             ignore
+             y-or-n-p-insert-y
+             )))
 
 (use-package
         which-key
@@ -138,6 +148,7 @@
 (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
 (add-to-list 'org-structure-template-alist '("bash" . "src bash"))
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("nims" . "src nims"))
 
 (setq org-src-window-setup 'current-window)
 
@@ -344,3 +355,16 @@
         (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
 
 (general-define-key "C-x b" 'clover-ignore-star-buffers)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+      '(vlf keyfreq ws-butler whole-line-or-region which-key use-package terraform-mode restclient resize-window rainbow-delimiters powershell org-bullets ob-powershell nov multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy kubel kubedoc keycast kele js-auto-beautify ivy-rich highlight-indent-guides helpful general exwm evil-nerd-commenter eshell-git-prompt elisp-format dtrt-indent doom-themes doom-modeline docker counsel-projectile company-box command-log-mode all-the-icons)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
