@@ -318,9 +318,15 @@
         yaml-mode
         :hook (yaml-mode . lsp-deferred))
 
-(defun clover/set-frame-font-size (SIZE)
-        (interactive "nFont Size: ")
-        (set-face-attribute 'default (selected-frame)
+(setq exec-path (append exec-path '("~/.nimble/bin")))
+(use-package nim-mode
+    :ensure t
+    :hook
+    (nim-mode . lsp))
+
+(defun clover/set-frame-font-size (SIZE) 
+        (interactive "nFont Size: ") 
+        (set-face-attribute 'default (selected-frame) 
                 :height SIZE))
 
 (defun clover/font-size-increase (BY)
@@ -361,7 +367,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-      '(vlf keyfreq ws-butler whole-line-or-region which-key use-package terraform-mode restclient resize-window rainbow-delimiters powershell org-bullets ob-powershell nov multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy kubel kubedoc keycast kele js-auto-beautify ivy-rich highlight-indent-guides helpful general exwm evil-nerd-commenter eshell-git-prompt elisp-format dtrt-indent doom-themes doom-modeline docker counsel-projectile company-box command-log-mode all-the-icons)))
+      '(yaml-mode whole-line-or-region which-key use-package terraform-mode shell-current-directory resize-window rainbow-delimiters powershell org-bullets ob-powershell nov nim-mode multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy keycast json-mode ivy-rich highlight-indent-guides helpful general exwm evil-nerd-commenter eshell-git-prompt elisp-format dtrt-indent doom-themes doom-modeline counsel-projectile company-box command-log-mode all-the-icons)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -464,6 +464,14 @@ https://magit.vc/manual/magit/
           yaml-mode
           :hook (yaml-mode . lsp-deferred))
 #+end_src
+*** NIM
+#+begin_src emacs-lisp
+  (setq exec-path (append exec-path '("~/.nimble/bin")))
+  (use-package nim-mode
+      :ensure t
+      :hook
+      (nim-mode . lsp))
+#+end_src
 * Clover Functions
 ** Font Size Management
 #+begin_src emacs-lisp

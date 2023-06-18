@@ -28,11 +28,16 @@
         prusa-slicer-gtk2-bin \
         make cmake arm-none-eabi-binutils arm-none-eabi-gcc gcc-arm-none-eabi-bin arm-none-eabi-newlib arm-none-eabi-gdb \
         docker \
-        nim nimble
+        nim nimble choosenim
 
   git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
   cd ~/obs/scripts
   makepkg -s
+#+end_src
+* Nim setup
+#+begin_src bash
+  choosenim stable
+  ~/.nimble/bin/nimble -y install nimlsp
 #+end_src
 * Kernel headers
 sudo pacman -Syu linux-headers
