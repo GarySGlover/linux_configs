@@ -1,4 +1,4 @@
-#+PROPERTY: header-args:emacs-lisp :tangle ./.emacs.d/init.el :mkdirp yes
+#+PROPERTY: header-args:emacs-lisp :tangle ./.emacs.d/init.el :mkdirp yes :results silent
 * Init Config
 ** Setup Package Repos
 #+begin_src emacs-lisp
@@ -314,7 +314,7 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (push '(display-buffer-from-compilation-p display-buffer-same-window (inhibit-same-window . nil))
     display-buffer-alist)
 #+end_src
-* Completion
+* Search
 ** Counsel
 #+begin_src emacs-lisp
   (use-package
@@ -351,6 +351,15 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (use-package
           ivy-rich
           :init (ivy-rich-mode 1))
+#+end_src
+** Avy
+#+begin_src emacs-lisp
+  (use-package avy
+      :bind (("C-c s s" . avy-goto-char)
+                ("C-c s c" . avy-goto-char-2)
+                ("C-c s l" . avy-goto-line)
+                ("C-c s w" . avy-goto-word-1))
+      )
 #+end_src
 * Development
 ** Treemacs
