@@ -106,6 +106,8 @@
              y-or-n-p-insert-y
              )))
 
+(use-package vlf)
+
 (use-package
         which-key
         :init (which-key-mode)
@@ -152,6 +154,12 @@
 
 (setq org-src-window-setup 'current-window)
 
+(defun org-babel-remove-result-all ()
+    (interactive)
+    (org-babel-remove-result-one-or-many 1))
+(use-package org-bullets
+    :bind ("C-c C-v C-k" . org-babel-remove-result-all))
+
 (use-package
         rainbow-delimiters
         :hook (prog-mode . rainbow-delimiters-mode))
@@ -189,6 +197,36 @@
 
 (use-package ws-butler
     :hook prog-mode org-mode)
+
+; if you're windened, narrow to the region, if you're narrowed, widen
+; bound to C-x n
+(defun narrow-or-widen-dwim (p)
+    "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
+Intelligently means: region, org-src-block, org-subtree, or defun,
+whichever applies first.
+Narrowing to org-src-block actually calls `org-edit-src-code'.
+
+With prefix P, don't widen, just narrow even if buffer is already
+narrowed."
+    (interactive "P")
+    (declare (interactive-only))
+    (cond ((and
+               (buffer-narrowed-p)
+               (not p))
+              (widen))
+        ((region-active-p)
+            (narrow-to-region (region-beginning)
+                (region-end)))
+        ((derived-mode-p 'org-mode)
+            ;; `org-edit-src-code' is not a real narrowing command.
+            ;; Remove this first conditional if you don't want it.
+            (cond ((ignore-errors (org-edit-src-code))
+                      (delete-other-windows))
+                ((org-at-block-p)
+                    (org-narrow-to-block))
+                (t (org-narrow-to-subtree))))
+        (t (narrow-to-defun))))
+(general-define-key "C-c n" 'narrow-or-widen-dwim)
 
 (defhydra hydra-windows (global-map "s-j" :hint nil)
         ("e" (clover/font-size-increase 5))
@@ -241,6 +279,13 @@
 (use-package
         ivy-rich
         :init (ivy-rich-mode 1))
+
+(use-package avy
+    :bind (("C-c s s" . avy-goto-char)
+              ("C-c s c" . avy-goto-char-2)
+              ("C-c s l" . avy-goto-line)
+              ("C-c s w" . avy-goto-word-1))
+    )
 
 (use-package
         treemacs)
@@ -324,9 +369,9 @@
     :hook
     (nim-mode . lsp))
 
-(defun clover/set-frame-font-size (SIZE) 
-        (interactive "nFont Size: ") 
-        (set-face-attribute 'default (selected-frame) 
+(defun clover/set-frame-font-size (SIZE)
+        (interactive "nFont Size: ")
+        (set-face-attribute 'default (selected-frame)
                 :height SIZE))
 
 (defun clover/font-size-increase (BY)
@@ -361,16 +406,3 @@
         (clover-counsel-switch-buffer (append ivy-ignore-buffers '("^\*") regex-list)))
 
 (general-define-key "C-x b" 'clover-ignore-star-buffers)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-      '(yaml-mode whole-line-or-region which-key use-package terraform-mode shell-current-directory resize-window rainbow-delimiters powershell org-bullets ob-powershell nov nim-mode multiple-cursors magit lsp-ui lsp-treemacs lsp-ivy keycast json-mode ivy-rich highlight-indent-guides helpful general exwm evil-nerd-commenter eshell-git-prompt elisp-format dtrt-indent doom-themes doom-modeline counsel-projectile company-box command-log-mode all-the-icons)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
