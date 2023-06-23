@@ -311,15 +311,16 @@ narrowed."
         :bind ("C-c g" . magit-status))
 
 (defun efs/lsp-mode-setup ()
-        (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-        (lsp-headerline-breadcrumb-mode))
+    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+    (lsp-headerline-breadcrumb-mode))
 
 (use-package
-        lsp-mode
-        :commands (lsp lsp-deferred)
-        :init (setq lsp-keymap-prefix "C-c l")
-        :config (lsp-enable-which-key-integration t)
-        :hook (lsp-mode . efs/lsp-mode-setup))
+    lsp-mode
+    :commands (lsp lsp-deferred)
+    :init (setq lsp-keymap-prefix "C-c l")
+    :config (lsp-enable-which-key-integration t)
+    :hook (lsp-mode . efs/lsp-mode-setup)
+    (prog-mode . lsp-deferred))
 
 (use-package
         lsp-ui
@@ -351,23 +352,32 @@ narrowed."
                       ("C-c f" . elisp-format-buffer)))
 
 (use-package
-        ob-powershell)
+    ob-powershell)
 (use-package
-        powershell)
+    powershell
+    :init (add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
+    :hook
+    (powershell-mode . (lambda ()
+                           (set (make-local-variable 'compile-command)
+                               (format "pwsh -NoLogo -NonInteractive -Command \"& '%s'\""
+                                   (buffer-file-name))))))
 
 (use-package
-        terraform-mode
-        :hook (terraform-mode . lsp-deferred))
+    jq-mode
+    :init    (add-to-list 'auto-mode-alist '("\\.jq$" . jq-mode)))
 
 (use-package
-        yaml-mode
-        :hook (yaml-mode . lsp-deferred))
+    terraform-mode
+    :hook (terraform-mode . prog-mode))
+
+(use-package
+    yaml-mode
+    :hook (yaml-mode . prog-mode))
 
 (setq exec-path (append exec-path '("~/.nimble/bin")))
-(use-package nim-mode
-    :ensure t
-    :hook
-    (nim-mode . lsp))
+(use-package
+    nim-mode
+    :hook (nim-mode . prog-mode))
 
 (defun clover/set-frame-font-size (SIZE)
         (interactive "nFont Size: ")

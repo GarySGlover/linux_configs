@@ -439,15 +439,16 @@ https://magit.vc/manual/magit/
 ** LSP Mode Setup
 #+begin_src emacs-lisp
   (defun efs/lsp-mode-setup ()
-          (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-          (lsp-headerline-breadcrumb-mode))
+      (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+      (lsp-headerline-breadcrumb-mode))
 
   (use-package
-          lsp-mode
-          :commands (lsp lsp-deferred)
-          :init (setq lsp-keymap-prefix "C-c l")
-          :config (lsp-enable-which-key-integration t)
-          :hook (lsp-mode . efs/lsp-mode-setup))
+      lsp-mode
+      :commands (lsp lsp-deferred)
+      :init (setq lsp-keymap-prefix "C-c l")
+      :config (lsp-enable-which-key-integration t)
+      :hook (lsp-mode . efs/lsp-mode-setup)
+      (prog-mode . lsp-deferred))
 #+end_src
 *** LSP UI
 #+begin_src emacs-lisp
@@ -492,29 +493,40 @@ https://magit.vc/manual/magit/
 *** Powershell
 #+begin_src emacs-lisp
   (use-package
-          ob-powershell)
+      ob-powershell)
   (use-package
-          powershell)
+      powershell
+      :init (add-to-list 'auto-mode-alist '("\\.ps1$" . powershell-mode))
+      :hook
+      (powershell-mode . (lambda ()
+                             (set (make-local-variable 'compile-command)
+                                 (format "pwsh -NoLogo -NonInteractive -Command \"& '%s'\""
+                                     (buffer-file-name))))))
+#+end_src
+*** jq
+#+begin_src emacs-lisp
+  (use-package
+      jq-mode
+      :init    (add-to-list 'auto-mode-alist '("\\.jq$" . jq-mode)))
 #+end_src
 *** Terraform
 #+begin_src emacs-lisp
   (use-package
-          terraform-mode
-          :hook (terraform-mode . lsp-deferred))
+      terraform-mode
+      :hook (terraform-mode . prog-mode))
 #+end_src
 *** YAML
 #+begin_src emacs-lisp
   (use-package
-          yaml-mode
-          :hook (yaml-mode . lsp-deferred))
+      yaml-mode
+      :hook (yaml-mode . prog-mode))
 #+end_src
 *** NIM
 #+begin_src emacs-lisp
   (setq exec-path (append exec-path '("~/.nimble/bin")))
-  (use-package nim-mode
-      :ensure t
-      :hook
-      (nim-mode . lsp))
+  (use-package
+      nim-mode
+      :hook (nim-mode . prog-mode))
 #+end_src
 * Clover Functions
 ** Font Size Management
