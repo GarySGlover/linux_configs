@@ -14,6 +14,15 @@
 ;; (require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package auto-package-update
+    :custom
+    (auto-package-update-interval 1)
+    (auto-package-prompt-before-update t)
+    (auto-package-update-hide-results t)
+    :config
+    (auto-package-update-maybe)
+    (auto-package-update-at-time 10:00))
+
 (require 'server)
 (unless (server-running-p)
         (server-start))

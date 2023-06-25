@@ -18,6 +18,17 @@
   ;; (require 'use-package)
   (setq use-package-always-ensure t)
 #+end_src
+** Auto update packages
+#+begin_src emacs-lisp
+  (use-package auto-package-update
+      :custom
+      (auto-package-update-interval 1)
+      (auto-package-prompt-before-update t)
+      (auto-package-update-hide-results t)
+      :config
+      (auto-package-update-maybe)
+      (auto-package-update-at-time 10:00))
+#+end_src
 ** Start emacs server
 #+begin_src emacs-lisp
   (require 'server)
