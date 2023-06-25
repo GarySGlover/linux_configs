@@ -337,13 +337,13 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
-  (defhydra hydra-windows (global-map "s-j" :hint nil)
-          ("e" (clover/font-size-increase 5))
-          ("q" (clover/font-size-decrease 5))
-          ("i" windmove-up)
-          ("k" windmove-down)
-          ("j" windmove-left)
-          ("l" windmove-right))
+  (defhydra hydra-windows (global-map "C-c w" :hint nil)
+          ("i" (clover/font-size-increase 5))
+          ("d" (clover/font-size-decrease 5))
+          ("<up>" windmove-up)
+          ("<down>" windmove-down)
+          ("<left>" windmove-left)
+          ("<right>" windmove-right))
   (general-define-key "M-o" 'other-window)
 #+end_src
 ** Window resizing
