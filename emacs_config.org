@@ -27,7 +27,7 @@
       (auto-package-update-hide-results t)
       :config
       (auto-package-update-maybe)
-      (auto-package-update-at-time 10:00))
+      (auto-package-update-at-time "10:00"))
 #+end_src
 ** Start emacs server
 #+begin_src emacs-lisp
@@ -331,9 +331,12 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
           (t (narrow-to-defun))))
   (general-define-key "C-c n" 'narrow-or-widen-dwim)
 #+end_src
-
-#+RESULTS:
-
+** Shift lines/regions and indentation
+Allow for shifting by use of C-c <arrow>. Can be used both for re-ordering lines and changing indentation
+#+begin_src emacs-lisp
+  (use-package smart-shift
+      :init (global-smart-shift-mode 1))
+#+end_src
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
@@ -523,21 +526,24 @@ https://magit.vc/manual/magit/
 *** Terraform
 #+begin_src emacs-lisp
   (use-package
-      terraform-mode
-      :hook (terraform-mode . prog-mode))
+      terraform-mode)
 #+end_src
 *** YAML
 #+begin_src emacs-lisp
   (use-package
       yaml-mode
-      :hook (yaml-mode . prog-mode))
+      :init (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
 #+end_src
 *** NIM
 #+begin_src emacs-lisp
   (setq exec-path (append exec-path '("~/.nimble/bin")))
   (use-package
-      nim-mode
-      :hook (nim-mode . prog-mode))
+      nim-mode)
+#+end_src
+*** Python
+#+begin_src emacs-lisp
+  (use-package pyvenv)
+  (use-package pipenv)
 #+end_src
 * Clover Functions
 ** Font Size Management
