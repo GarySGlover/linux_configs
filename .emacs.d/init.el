@@ -21,7 +21,7 @@
     (auto-package-update-hide-results t)
     :config
     (auto-package-update-maybe)
-    (auto-package-update-at-time 10:00))
+    (auto-package-update-at-time "10:00"))
 
 (require 'server)
 (unless (server-running-p)
@@ -85,6 +85,11 @@
         :config (with-eval-after-load 'esh-opt
                         (setq eshell-destroy-buffer-when-process-dies t))
         (eshell-git-prompt-use-theme 'powerline))
+
+(define-minor-mode prog-minor-mode
+    "Minor mode for programming support.
+Should be used as the main mode to hook other modes onto")
+(add-hook 'prog-mode-hook #'prog-minor-mode)
 
 (global-auto-revert-mode 1)
 
@@ -171,10 +176,10 @@
 
 (use-package
         rainbow-delimiters
-        :hook (prog-mode . rainbow-delimiters-mode))
+        :hook (prog-minor-mode . rainbow-delimiters-mode))
 
 (setq-default fill-column 80)
-(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+(add-hook 'prog-minor-mode-hook #'display-fill-column-indicator-mode)
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -189,23 +194,23 @@
         :bind ("C-;" . evilnc-comment-or-uncomment-lines))
 
 (use-package highlight-indent-guides
-  :hook prog-mode
+  :hook (prog-minor-mode . highlight-indent-guides-mode)
   :bind ("C-c h" . highlight-indent-guides-mode)
   :init (setq highlight-indent-guides-method 'character))
 
 (use-package dtrt-indent
-    :hook prog-mode
+    :hook (prog-minonr-mode . dtrt-indent-mode)
     :bind (("C-c i d" . dtrt-indent-diagnosis)
             ("C-c i h" . dtrt-indent-highlight)
             ("C-c i u" . dtrt-indent-undo)))
 
 (use-package whitespace
-    :hook prog-mode
+    :hook (prog-minor-mode . whitespace-mode)
     :init (setq whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))
     :bind (("C-c w" . whitespace-mode)))
 
 (use-package ws-butler
-    :hook prog-mode org-mode)
+    :hook ((prog-minor-mode org-mode) . ws-butler-mode))
 
 ; if you're windened, narrow to the region, if you're narrowed, widen
 ; bound to C-x n
@@ -236,6 +241,9 @@ narrowed."
                 (t (org-narrow-to-subtree))))
         (t (narrow-to-defun))))
 (general-define-key "C-c n" 'narrow-or-widen-dwim)
+
+(use-package smart-shift
+    :init (global-smart-shift-mode 1))
 
 (defhydra hydra-windows (global-map "C-c w" :hint nil)
         ("i" (clover/font-size-increase 5))
@@ -343,7 +351,7 @@ narrowed."
 (use-package
         company
         :after lsp-mode
-        :hook (prog-mode . company-mode)
+        :hook (prog-minor-mode . company-mode)
         :bind (:map company-active-map
                       ("<tab>" . company-complete-selection))
         (:map lsp-mode-map
@@ -377,16 +385,20 @@ narrowed."
 
 (use-package
     terraform-mode
-    :hook (terraform-mode . prog-mode))
+    :hook (terraform-mode . prog-minor-mode))
 
 (use-package
     yaml-mode
-    :hook (yaml-mode . prog-mode))
+    :init (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+    :hook (yaml-mode . prog-minor-mode))
 
 (setq exec-path (append exec-path '("~/.nimble/bin")))
 (use-package
     nim-mode
-    :hook (nim-mode . prog-mode))
+    :hook (nim-mode . prog-minor-mode))
+
+(use-package pyvenv)
+(use-package pipenv)
 
 (defun clover/set-frame-font-size (SIZE)
         (interactive "nFont Size: ")

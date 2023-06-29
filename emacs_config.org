@@ -113,6 +113,13 @@
                           (setq eshell-destroy-buffer-when-process-dies t))
           (eshell-git-prompt-use-theme 'powerline))
 #+end_src
+*** Programming minor modes hook
+#+begin_src emacs-lisp
+  (define-minor-mode prog-minor-mode
+      "Minor mode for programming support.
+  Should be used as the main mode to hook other modes onto")
+  (add-hook 'prog-mode-hook #'prog-minor-mode)
+#+end_src
 ** Buffer auto revert
 #+begin_src emacs-lisp
   (global-auto-revert-mode 1)
@@ -243,17 +250,16 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (use-package org-bullets
       :bind ("C-c C-v C-k" . org-babel-remove-result-all))
 #+end_src
-
 ** Rainbox Delimeters
 #+begin_src emacs-lisp
   (use-package
           rainbow-delimiters
-          :hook (prog-mode . rainbow-delimiters-mode))
+          :hook (prog-minor-mode . rainbow-delimiters-mode))
 #+end_src
 ** Column ruler
 #+begin_src emacs-lisp
   (setq-default fill-column 80)
-  (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+  (add-hook 'prog-minor-mode-hook #'display-fill-column-indicator-mode)
 #+end_src
 ** Line numbers
 #+begin_src emacs-lisp
@@ -275,14 +281,14 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 ** Highlight indentation
 #+begin_src emacs-lisp
   (use-package highlight-indent-guides
-    :hook prog-mode
+    :hook (prog-minor-mode . highlight-indent-guides-mode)
     :bind ("C-c h" . highlight-indent-guides-mode)
     :init (setq highlight-indent-guides-method 'character))
 #+end_src
 ** Auto detect indentation
 #+begin_src emacs-lisp
   (use-package dtrt-indent
-      :hook prog-mode
+      :hook (prog-minonr-mode . dtrt-indent-mode)
       :bind (("C-c i d" . dtrt-indent-diagnosis)
               ("C-c i h" . dtrt-indent-highlight)
               ("C-c i u" . dtrt-indent-undo)))
@@ -290,14 +296,14 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
 ** Highlight whitespace
 #+begin_src emacs-lisp
   (use-package whitespace
-      :hook prog-mode
+      :hook (prog-minor-mode . whitespace-mode)
       :init (setq whitespace-style '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))
       :bind (("C-c w" . whitespace-mode)))
 #+End_src
 ** Auto remove whitespace
 #+begin_src emacs-lisp
   (use-package ws-butler
-      :hook prog-mode org-mode)
+      :hook ((prog-minor-mode org-mode) . ws-butler-mode))
 #+End_src
 ** Narrowing
 #+begin_src emacs-lisp
@@ -484,7 +490,7 @@ https://magit.vc/manual/magit/
   (use-package
           company
           :after lsp-mode
-          :hook (prog-mode . company-mode)
+          :hook (prog-minor-mode . company-mode)
           :bind (:map company-active-map
                         ("<tab>" . company-complete-selection))
           (:map lsp-mode-map
@@ -526,19 +532,22 @@ https://magit.vc/manual/magit/
 *** Terraform
 #+begin_src emacs-lisp
   (use-package
-      terraform-mode)
+      terraform-mode
+      :hook (terraform-mode . prog-minor-mode))
 #+end_src
 *** YAML
 #+begin_src emacs-lisp
   (use-package
       yaml-mode
-      :init (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode)))
+      :init (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+      :hook (yaml-mode . prog-minor-mode))
 #+end_src
 *** NIM
 #+begin_src emacs-lisp
   (setq exec-path (append exec-path '("~/.nimble/bin")))
   (use-package
-      nim-mode)
+      nim-mode
+      :hook (nim-mode . prog-minor-mode))
 #+end_src
 *** Python
 #+begin_src emacs-lisp
