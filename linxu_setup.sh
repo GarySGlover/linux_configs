@@ -22,12 +22,13 @@ pamac install --no-confirm \
       google-chrome \
       prusa-slicer-gtk2-bin \
       make cmake arm-none-eabi-binutils arm-none-eabi-gcc gcc-arm-none-eabi-bin arm-none-eabi-newlib arm-none-eabi-gdb \
-      choosenim
+      docker \
+      nim nimble choosenim \
+      pipenv
 
 git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
 cd ~/obs/scripts
 makepkg -s
 
 choosenim stable
-~/.nimble/bin/nimble -y install nimlsp
 ~/.nimble/bin/nimble -y install nimlsp
