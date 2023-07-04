@@ -245,6 +245,9 @@ narrowed."
 (use-package smart-shift
     :init (global-smart-shift-mode 1))
 
+(use-package iedit
+    :bind ("C-c e" . 'iedit-mode))
+
 (defhydra hydra-windows (global-map "C-c w" :hint nil)
         ("i" (clover/font-size-increase 5))
         ("d" (clover/font-size-decrease 5))
@@ -399,6 +402,10 @@ narrowed."
 
 (use-package pyvenv)
 (use-package pipenv)
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode))
 
 (defun clover/set-frame-font-size (SIZE)
         (interactive "nFont Size: ")

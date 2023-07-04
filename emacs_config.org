@@ -343,6 +343,13 @@ Allow for shifting by use of C-c <arrow>. Can be used both for re-ordering lines
   (use-package smart-shift
       :init (global-smart-shift-mode 1))
 #+end_src
+** Editing multiple regions of text simultaneously
+IEdit can edit matching regions, quicker than search and replace. Not using multiple cursors
+but does have more flexibiliy on setting where the edit cursors are.
+#+begin_src emacs-lisp
+  (use-package iedit
+      :bind ("C-c e" . 'iedit-mode))
+#+end_src
 * Window Management
 ** Window Management
 #+begin_src emacs-lisp
@@ -553,6 +560,10 @@ https://magit.vc/manual/magit/
 #+begin_src emacs-lisp
   (use-package pyvenv)
   (use-package pipenv)
+  (use-package python-black
+    :demand t
+    :after python
+    :hook (python-mode . python-black-on-save-mode))
 #+end_src
 * Clover Functions
 ** Font Size Management
