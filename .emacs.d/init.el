@@ -185,7 +185,7 @@ Should be used as the main mode to hook other modes onto")
 (global-display-line-numbers-mode t)
 
 ;; Disable line numbers for some modes
-(dolist (mode '(org-mode-hook term-mode-hook shell-mode-hook treemacs-mode-hook eshell-mode-hook))
+(dolist (mode '(org-mode-hook term-mode-hook shell-mode-hook treemacs-mode-hook eshell-mode-hook vlf-mode-hook))
         (add-hook mode (lambda ()
                                (display-line-numbers-mode 0))))
 
@@ -365,6 +365,9 @@ narrowed."
 (use-package
         company-box
         :hook (company-mode . company-box-mode))
+
+(use-package flycheck
+    :init (global-flycheck-mode))
 
 (use-package
         elisp-format

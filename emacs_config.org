@@ -267,7 +267,7 @@ https://www.youtube.com/watch?v=xaZMwNELaJY&t=3260s
   (global-display-line-numbers-mode t)
 
   ;; Disable line numbers for some modes
-  (dolist (mode '(org-mode-hook term-mode-hook shell-mode-hook treemacs-mode-hook eshell-mode-hook))
+  (dolist (mode '(org-mode-hook term-mode-hook shell-mode-hook treemacs-mode-hook eshell-mode-hook vlf-mode-hook))
           (add-hook mode (lambda ()
                                  (display-line-numbers-mode 0))))
 #+end_src
@@ -508,6 +508,11 @@ https://magit.vc/manual/magit/
   (use-package
           company-box
           :hook (company-mode . company-box-mode))
+#+end_src
+** Flycheck General
+#+begin_src emacs-lisp
+  (use-package flycheck
+      :init (global-flycheck-mode))
 #+end_src
 ** Languages
 *** Elisp

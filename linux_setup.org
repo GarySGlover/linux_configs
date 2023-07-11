@@ -29,7 +29,7 @@
         make cmake arm-none-eabi-binutils arm-none-eabi-gcc gcc-arm-none-eabi-bin arm-none-eabi-newlib arm-none-eabi-gdb \
         docker \
         nim nimble choosenim \
-        python-pipenv
+        python-pipenv python-pylsp-mypy
 
   git clone https://github.com/royshil/obs-backgroundremoval.git ~/obs
   cd ~/obs/scripts
